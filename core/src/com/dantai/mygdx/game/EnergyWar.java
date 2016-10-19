@@ -8,28 +8,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnergyWar extends Game {
-	SpriteBatch batch;
+	public SpriteBatch batch;
 	Texture robotImg;
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		robotImg = new Texture("Idle1.png");
-                
+            batch = new SpriteBatch();
+            setScreen(new GameScreen(this));
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0.5f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(robotImg, 120, 120, 120, 120);
-		batch.end();
+            super.render();
 	}
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
-		robotImg.dispose();
+            batch.dispose();
 	}
 }
