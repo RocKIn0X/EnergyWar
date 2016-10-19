@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
                 config.title = "Energy war";
-                config.width = 1200;
+                config.width = 1280;
                 config.height = 800;
 		new LwjglApplication(new EnergyWar(), config);
 	}
