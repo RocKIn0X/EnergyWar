@@ -23,7 +23,7 @@ public class GameScreen extends ScreenAdapter{
     
     public GameScreen (EnergyWar energyWar){
         this.energyWar = energyWar;
-        robotImg = new Texture("Idle1.png");
+        robotImg = new Texture("robot.png");
         robot = new Robot(240, 240);
         
     }
@@ -35,7 +35,7 @@ public class GameScreen extends ScreenAdapter{
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         Vector2 pos = robot.getPosition();
-        batch.draw(robotImg, pos.x, pos.y, 120, 120);
+        batch.draw(robotImg, pos.x, pos.y, 60, 60);
         batch.end();
     }
 }
