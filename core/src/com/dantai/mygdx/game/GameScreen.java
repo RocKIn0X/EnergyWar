@@ -20,12 +20,14 @@ public class GameScreen extends ScreenAdapter{
     private EnergyWar energyWar;
     private Texture robotImg;
     private Robot robot;
+    private World world;
     
     public GameScreen (EnergyWar energyWar){
         this.energyWar = energyWar;
         robotImg = new Texture("robot.png");
-        robot = new Robot(240, 240);
         
+        world = new World(energyWar);
+        robot = world.getRobot();
     }
     
     @Override
