@@ -21,6 +21,7 @@ public class GameScreen extends ScreenAdapter{
     private Texture robotImg;
     private Robot robot;
     private World world;
+    private WorldRenderer worldRenderer;
     
     public GameScreen (EnergyWar energyWar){
         this.energyWar = energyWar;
@@ -28,16 +29,15 @@ public class GameScreen extends ScreenAdapter{
         
         world = new World(energyWar);
         robot = world.getRobot();
+        
+        worldRenderer = new WorldRenderer(energyWar, world);
     }
     
     @Override
-    public void render(float delta){
-        SpriteBatch batch = energyWar.batch;
+    public void render(float delta){       
         Gdx.gl.glClearColor(0, 0, 0.5f, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        Vector2 pos = robot.getPosition();
-        batch.draw(robotImg, pos.x, pos.y, 60, 60);
-        batch.end();
+        
+        worldRenderer.render(delta);
     }
 }
