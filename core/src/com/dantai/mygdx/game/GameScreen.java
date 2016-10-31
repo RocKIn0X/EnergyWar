@@ -35,8 +35,9 @@ public class GameScreen extends ScreenAdapter{
     }
     
     @Override
-    public void render(float delta){     
-        update(delta);
+    public void render(float delta){
+        world.updateFall(delta);
+        updateMovement(delta);
         
         Gdx.gl.glClearColor(0, 0, 0.5f, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -44,7 +45,7 @@ public class GameScreen extends ScreenAdapter{
         worldRenderer.render(delta);
     }
     
-    private void update(float delta){
+    private void updateMovement(float delta){
         if(Gdx.input.isKeyPressed(Input.Keys.W)){
             robot.move(robot.DIRECTION_UP);
         }

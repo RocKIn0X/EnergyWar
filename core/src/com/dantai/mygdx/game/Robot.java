@@ -33,6 +33,12 @@ public class Robot {
         position = new Vector2(x, y);
     }
     
+    public void update(float deltaTime){
+        if(position.y > 0){
+            position.add(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
+        }
+    }
+    
     public void move(int dir){
         position.x += SPEED * DIR_DIFF[dir][0];
         position.y += SPEED * DIR_DIFF[dir][1];
