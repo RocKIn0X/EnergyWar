@@ -29,8 +29,6 @@ public class RobotTest {
     
     @Test
     public void correctUpdatePositionMove(){
-        robot.move(robot.DIRECTION_UP);
-        assertEquals(105, robot.getPosition().y, DELTA);
         robot.move(robot.DIRECTION_LEFT);
         assertEquals(95, robot.getPosition().x, DELTA);
         robot.move(robot.DIRECTION_RIGHT);

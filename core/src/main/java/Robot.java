@@ -16,11 +16,11 @@ public class Robot {
     
     public static final int DIRECTION_UP = 1;
     public static final int DIRECTION_RIGHT = 2;
-    public static final int DIRECTION_DOWN = 3;
+    public static final int DIRECTION_DOWN = 3; //My game doesn't use it.
     public static final int DIRECTION_LEFT = 4;
     public static final int DIRECTION_STILL = 0;
     
-    public static final float SPEED = 5f;
+    public static final float xSPEED = 5f;
     
     private static final float[][] DIR_DIFF = new float[][]{
         {0,0},
@@ -41,8 +41,7 @@ public class Robot {
     }
     
     public void move(int dir){
-        position.x += SPEED * DIR_DIFF[dir][0];
-        position.y += SPEED * DIR_DIFF[dir][1];
+        position.add(xSPEED * DIR_DIFF[dir][0], 0);
     }
     
     public Vector2 getPosition(){

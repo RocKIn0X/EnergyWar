@@ -46,14 +46,8 @@ public class GameScreen extends ScreenAdapter{
     }
     
     private void updateMovement(float delta){
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            robot.move(robot.DIRECTION_UP);
-        }
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
             robot.move(robot.DIRECTION_RIGHT);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            robot.move(robot.DIRECTION_DOWN);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             robot.move(robot.DIRECTION_LEFT);
