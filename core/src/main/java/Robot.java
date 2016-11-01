@@ -19,17 +19,18 @@ public class Robot {
     public static final int DIRECTION_DOWN = 3;
     public static final int DIRECTION_LEFT = 4;
     public static final int DIRECTION_STILL = 0;
-    public static final int SPEED = 5;
     
-    private static final int [][] DIR_DIFF = new int[][]{
+    public static final float SPEED = 5f;
+    
+    private static final float[][] DIR_DIFF = new float[][]{
         {0,0},
-        {0,1},
-        {1,0},
-        {0,-1},
-        {-1,0}
+        {0,1f},
+        {1f,0},
+        {0,-1f},
+        {-1f,0}
     };
     
-    public Robot(int x, int y){
+    public Robot(float x, float y){
         position = new Vector2(x, y);
     }
     

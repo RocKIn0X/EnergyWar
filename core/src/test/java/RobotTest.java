@@ -1,0 +1,40 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import com.dantai.mygdx.game.Robot;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.Before;
+
+/**
+ *
+ * @author inman
+ */
+public class RobotTest {
+    
+    private Robot robot;
+    private static final double DELTA = 1e-15;
+    
+    public RobotTest() {
+        
+    }
+    
+    @Before
+    public void setUp(){
+        robot = new Robot(100, 100);
+    }
+    
+    @Test
+    public void correctUpdatePositionMove(){
+        robot.move(robot.DIRECTION_UP);
+        assertEquals(105, robot.getPosition().y, DELTA);
+        robot.move(robot.DIRECTION_LEFT);
+        assertEquals(95, robot.getPosition().x, DELTA);
+        robot.move(robot.DIRECTION_RIGHT);
+        assertEquals(100, robot.getPosition().x, DELTA);
+    }
+}
+    

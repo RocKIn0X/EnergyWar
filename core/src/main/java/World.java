@@ -15,12 +15,12 @@ public class World {
     private Robot robot;
     private EnergyWar energyWar;
     
-    public static final Vector2 gravity = new Vector2(0, -100);
+    public static final Vector2 gravity = new Vector2(0, -400);
     
     World(EnergyWar energyWar){
         this.energyWar = energyWar;
         
-        robot = new Robot(240, 240);
+        robot = new Robot(240f, 240f);
     }
     
     public void updateFall(float deltaTime){
