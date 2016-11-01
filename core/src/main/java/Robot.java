@@ -47,4 +47,20 @@ public class Robot {
     public Vector2 getPosition(){
         return position;
     }
+
+    public boolean onGround() {
+        if(position.y <= 0){
+            return true;
+        }
+        
+        return false;
+    }
+
+    public boolean onAir() {
+        if(position.y > 0){
+            return true;
+        }
+        
+        return false;
+    }
 }

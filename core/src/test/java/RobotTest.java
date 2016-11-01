@@ -16,6 +16,7 @@ import org.junit.Before;
 public class RobotTest {
     
     private Robot robot;
+    private Robot robot2;
     private static final double DELTA = 1e-15;
     
     public RobotTest() {
@@ -25,6 +26,7 @@ public class RobotTest {
     @Before
     public void setUp(){
         robot = new Robot(100, 100);
+        robot2 = new Robot(0, 0);
     }
     
     @Test
@@ -33,6 +35,18 @@ public class RobotTest {
         assertEquals(95, robot.getPosition().x, DELTA);
         robot.move(robot.DIRECTION_RIGHT);
         assertEquals(100, robot.getPosition().x, DELTA);
+    }
+    
+    @Test
+    public void onGroundTest(){
+        assertFalse(robot.onGround());
+        assertTrue(robot2.onGround());
+    }
+    
+    @Test
+    public void onAirTest(){
+        assertFalse(robot2.onAir());
+        assertTrue(robot.onAir());
     }
 }
     
