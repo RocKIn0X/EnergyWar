@@ -42,11 +42,5 @@ public class RobotTest {
         assertFalse(robot.onGround());
         assertTrue(robot2.onGround());
     }
-    
-    @Test
-    public void onAirTest(){
-        assertFalse(robot2.onAir());
-        assertTrue(robot.onAir());
-    }
 }
     

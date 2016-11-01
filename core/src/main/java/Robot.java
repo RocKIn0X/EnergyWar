@@ -55,12 +55,4 @@ public class Robot {
         
         return false;
     }
-
-    public boolean onAir() {
-        if(position.y > 0){
-            return true;
-        }
-        
-        return false;
-    }
 }
