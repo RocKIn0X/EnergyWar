@@ -5,6 +5,8 @@
  */
 package com.dantai.mygdx.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -13,6 +15,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Robot {
     private Vector2 position;
+    private Texture robotImg;
+    private Rectangle body;
     
     public static final int DIRECTION_UP = 1;
     public static final int DIRECTION_RIGHT = 2;
@@ -31,7 +35,10 @@ public class Robot {
     };
     
     public Robot(float x, float y){
+        robotImg = new Texture("robot.png");
+        
         position = new Vector2(x, y);
+        body = new Rectangle(x, y, robotImg.getWidth(), robotImg.getHeight());
     }
     
     public void update(float deltaTime){
@@ -54,5 +61,9 @@ public class Robot {
         }
         
         return false;
+    }
+    
+    public Rectangle getBody(){
+        return body;
     }
 }

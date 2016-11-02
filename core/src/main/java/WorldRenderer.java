@@ -38,8 +38,8 @@ public class WorldRenderer {
     public void render(float delta){
         batch.begin();
         Vector2 pos = world.getRobot().getPosition();
-        batch.draw(robotImg, pos.x, pos.y, 60, 60);
-        batch.draw(boxImg, box.x, box.y, 128, 128);
-        batch.end();
+        batch.draw(robotImg, pos.x, pos.y, robotImg.getWidth(), robotImg.getHeight());
+        batch.draw(boxImg, box.x, box.y, boxImg.getWidth() / 2, boxImg.getHeight() / 2);
+        batch.end(); 
     }
 }
