@@ -15,7 +15,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Robot {
     private Vector2 position;
-    private Texture robotImg;
+    private Vector2 bodyPos;
+    private Vector2 gravity;
     private Rectangle body;
     
     public static final int DIRECTION_UP = 1;
@@ -34,33 +35,32 @@ public class Robot {
         {-1f,0}
     };
     
-    public Robot(float x, float y){
-        robotImg = new Texture("robot.png");
-        
+    public Robot(float x, float y, float width, float height){
         position = new Vector2(x, y);
-        body = new Rectangle(x, y, robotImg.getWidth(), robotImg.getHeight());
+        body = new Rectangle(position.x, position.y, width, height);
+        bodyPos = new Vector2(x, y);
     }
     
     public void update(float deltaTime){
-        if(position.y > 0){
-            position.add(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
-        }
+        gravity = new Vector2(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
+        position.add(gravity);
+        bodyPos.add(gravity);
+        body.setPosition(bodyPos);
     }
     
     public void move(int dir){
         position.add(xSPEED * DIR_DIFF[dir][0], 0);
+        bodyPos.add(xSPEED * DIR_DIFF[dir][0], 0);
+        body.setPosition(xSPEED * DIR_DIFF[dir][0], 0);
     }
     
     public Vector2 getPosition(){
         return position;
     }
-
-    public boolean onGround() {
-        if(position.y <= 0){
-            return true;
-        }
-        
-        return false;
+    
+    public boolean isCollided(Rectangle rect){
+        System.out.println("Collision Detected"+""+body.overlaps(rect));
+        return rect.overlaps(body);
     }
     
     public Rectangle getBody(){

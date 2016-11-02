@@ -19,9 +19,11 @@ public class WorldRenderer {
     private EnergyWar energyWar;
     private SpriteBatch batch;
     private World world;
-    private Texture robotImg;
-    private Texture boxImg;
-    private Rectangle box;
+    private Rectangle boxRec;
+    private Rectangle robotRec;
+    
+    public static Texture robotImg;
+    public static Texture boxImg;
     
     public WorldRenderer (EnergyWar energyWar, World world){
         this.energyWar = energyWar;
@@ -32,14 +34,16 @@ public class WorldRenderer {
         robotImg = new Texture("robot.png");
         boxImg = new Texture("Box.png");
         
-        box = new Rectangle(100, 0, boxImg.getWidth(), boxImg.getHeight());
+        boxRec = world.getBox().getBody();
+        robotRec = world.getRobot().getBody();
     }
     
     public void render(float delta){
         batch.begin();
-        Vector2 pos = world.getRobot().getPosition();
-        batch.draw(robotImg, pos.x, pos.y, robotImg.getWidth(), robotImg.getHeight());
-        batch.draw(boxImg, box.x, box.y, boxImg.getWidth() / 2, boxImg.getHeight() / 2);
+        Vector2 posRobot = world.getRobot().getPosition();
+        Vector2 posBox = world.getBox().getPosition();
+        batch.draw(robotImg, posRobot.x, posRobot.y, robotImg.getWidth(), robotImg.getHeight());
+        batch.draw(boxImg, posBox.x, posBox.y, boxImg.getWidth() / 2, boxImg.getHeight() / 2);
         batch.end(); 
     }
 }

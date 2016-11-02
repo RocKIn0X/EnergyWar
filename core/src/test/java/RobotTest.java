@@ -37,10 +37,10 @@ public class RobotTest {
         assertEquals(100, robot.getPosition().x, DELTA);
     }
     
-    @Test
+   /* @Test
     public void onGroundTest(){
         assertFalse(robot.onGround());
         assertTrue(robot2.onGround());
-    }
+    } */
 }
     
