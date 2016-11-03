@@ -23,8 +23,8 @@ public class World {
         this.energyWar = energyWar;
         
         asset = new Asset();
-        robot = new Robot(240f, 240f, asset.getWidthRobot(), asset.getHeightRobot());
         box = new Box(100f, 0, asset.getWidthBox() / 2, asset.getHeightBox() / 2);
+        robot = new Robot(240f, 240f, asset.getWidthRobot(), asset.getHeightRobot(), this);
         
         //System.out.println(robot.getBody().getWidth() + " , " + robot.getBody().getHeight());
         //System.out.println(box.getBody().getWidth() + " , " + box.getBody().getHeight());
@@ -39,11 +39,11 @@ public class World {
         //System.out.println(asset.getWidthBox()/2 + " , " + asset.getHeightBox() / 2);
     }
     
-    Robot getRobot(){
+    public Robot getRobot(){
         return robot;
     }
 
-    Box getBox() {
+    public Box getBox() {
         return box;
     }
 }
