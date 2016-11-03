@@ -19,7 +19,7 @@ public class Robot {
     private Vector2 bodyPos;
     private Vector2 gravity;
     private Rectangle body;
-    private Rectangle bodyBox;
+    private Rectangle boxBodyRectangle;
     private World world;
     private int hasGravity;
     
@@ -44,6 +44,7 @@ public class Robot {
         position = new Vector2(x, y);
         body = new Rectangle(position.x, position.y, width, height);
         bodyPos = new Vector2(x, y);
+        boxBodyRectangle = world.getBox().getBody();
     }
     
     public void update(float deltaTime){
@@ -54,20 +55,28 @@ public class Robot {
     }
     
     public void move(int dir){
-        if(isCollided(world.getBox().getBody())){
+        int checkEdge = 1;
+        
+        if(isCollided(boxBodyRectangle)){
             hasGravity = 0;
+            
+            /*  
+                boxBody.height - 3 because body.y less than boxBody.height about 3
+                Example Test : System.out.println(this.getBody().y + " , " + boxBodyRectangle.height); 
+            */            
+            if(boxBodyRectangle.height - 3 > body.y){        
+                checkEdge = 0; //check when robot hit left or right edge of box.
+                hasGravity = 1;
+            }
         }
         else{
             hasGravity = 1;
         }
+        
         gravity = new Vector2(World.gravity.x * Gdx.graphics.getDeltaTime(), World.gravity.y * Gdx.graphics.getDeltaTime());
-        
-        System.out.println(world.getRobot().getBody().x + " , " + world.getRobot().getBody().y);
-        System.out.println(world.getBox().getBody().x + " , " + world.getBox().getBody().y);
-        System.out.println(Gdx.graphics.getDeltaTime());
-        
-        position.add(xSPEED * DIR_DIFF[dir][0], gravity.y * hasGravity);
-        bodyPos.add(xSPEED * DIR_DIFF[dir][0], gravity.y * hasGravity);
+
+        position.add(xSPEED * DIR_DIFF[dir][0] * checkEdge, gravity.y * hasGravity);
+        bodyPos.add(xSPEED * DIR_DIFF[dir][0] * checkEdge, gravity.y * hasGravity);
         body.setPosition(bodyPos);
     }
     
