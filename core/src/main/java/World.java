@@ -17,14 +17,14 @@ public class World {
     private EnergyWar energyWar;
     private Asset asset;
     
-    public static final Vector2 gravity = new Vector2(0, -100);
+    public static final Vector2 gravity = new Vector2(0, -1);
     
     World(EnergyWar energyWar){
         this.energyWar = energyWar;
         
         asset = new Asset();
         box = new Box(100f, 0, asset.getWidthBox() / 2, asset.getHeightBox() / 2);
-        robot = new Robot(240f, 240f, asset.getWidthRobot(), asset.getHeightRobot(), this);
+        robot = new Robot(240f, 800f, asset.getWidthRobot(), asset.getHeightRobot(), this);
         
         //System.out.println(robot.getBody().getWidth() + " , " + robot.getBody().getHeight());
         //System.out.println(box.getBody().getWidth() + " , " + box.getBody().getHeight());

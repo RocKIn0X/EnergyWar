@@ -22,6 +22,7 @@ public class Robot {
     private Rectangle boxBodyRectangle;
     private World world;
     private int hasGravity;
+    private float velocityY;
     
     public static final int DIRECTION_UP = 1;
     public static final int DIRECTION_RIGHT = 2;
@@ -49,34 +50,41 @@ public class Robot {
     
     public void update(float deltaTime){
         gravity = new Vector2(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
+        velocityY += gravity.y;
         position.add(gravity);
         bodyPos.add(gravity);
         body.setPosition(bodyPos);
     }
     
     public void move(int dir){
+        gravity = new Vector2(World.gravity.x * Gdx.graphics.getDeltaTime(), World.gravity.y * Gdx.graphics.getDeltaTime());
         int checkEdge = 1;
         
         if(isCollided(boxBodyRectangle)){
             hasGravity = 0;
             
+            if(boxBodyRectangle.x + 3 > body.x || boxBodyRectangle.width - 3 < body.x){
+                velocityY += gravity.y;
+            }
+            else{
+                velocityY = 0;
+            }
             /*  
                 boxBody.height - 3 because body.y less than boxBody.height about 3
                 Example Test : System.out.println(this.getBody().y + " , " + boxBodyRectangle.height); 
             */            
-            if(boxBodyRectangle.height - 3 > body.y){        
+            if(boxBodyRectangle.height - 3 > body.y){
                 checkEdge = 0; //check when robot hit left or right edge of box.
                 hasGravity = 1;
             }
         }
         else{
             hasGravity = 1;
+            velocityY += gravity.y;
         }
-        
-        gravity = new Vector2(World.gravity.x * Gdx.graphics.getDeltaTime(), World.gravity.y * Gdx.graphics.getDeltaTime());
 
-        position.add(xSPEED * DIR_DIFF[dir][0] * checkEdge, gravity.y * hasGravity);
-        bodyPos.add(xSPEED * DIR_DIFF[dir][0] * checkEdge, gravity.y * hasGravity);
+        position.add(xSPEED * DIR_DIFF[dir][0] * checkEdge, velocityY * hasGravity);
+        bodyPos.add(xSPEED * DIR_DIFF[dir][0] * checkEdge, velocityY * hasGravity);
         body.setPosition(bodyPos);
     }
     
