@@ -51,6 +51,11 @@ public class GameScreen extends ScreenAdapter{
         else if(Gdx.input.isKeyPressed(Input.Keys.A)){
             robot.move(robot.DIRECTION_LEFT);
         }
+        else if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            if(robot.onFloor()){
+                robot.jump();
+            }
+        }
         else{
             robot.move(robot.DIRECTION_STILL);
         }

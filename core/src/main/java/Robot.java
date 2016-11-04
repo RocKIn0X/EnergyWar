@@ -63,6 +63,10 @@ public class Robot {
         if(isCollided(boxBodyRectangle)){
             hasGravity = 0;
             
+            /* if(boxBodyRectangle.height > body.y){
+                position.y = boxBodyRectangle.height - 1;
+            } */
+            
             if(boxBodyRectangle.x + 3 > body.x || boxBodyRectangle.width - 3 < body.x){
                 velocityY += gravity.y;
             }
@@ -88,6 +92,10 @@ public class Robot {
         body.setPosition(bodyPos);
     }
     
+    public void jump(){
+        velocityY += 12;
+    }
+    
     public Vector2 getPosition(){
         return position;
     }
@@ -95,6 +103,15 @@ public class Robot {
     public boolean isCollided(Rectangle rect){
         System.out.println("Collision Detected"+""+body.overlaps(rect));
         return rect.overlaps(body);
+    }
+    
+    public boolean onFloor(){
+        if(isCollided(boxBodyRectangle)){
+            if(boxBodyRectangle.height - 3 > body.y){
+                return true;
+            }
+        }
+        return false;
     }
     
     public Rectangle getBody(){

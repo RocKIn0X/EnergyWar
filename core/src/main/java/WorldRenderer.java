@@ -24,6 +24,7 @@ public class WorldRenderer {
     
     public static Texture robotImg;
     public static Texture boxImg;
+    public static Texture background;
     
     public WorldRenderer (EnergyWar energyWar, World world){
         this.energyWar = energyWar;
@@ -33,6 +34,7 @@ public class WorldRenderer {
         
         robotImg = new Texture("robot.png");
         boxImg = new Texture("Box.png");
+        background = new Texture("Background.png");
         
         boxRec = world.getBox().getBody();
         robotRec = world.getRobot().getBody();
@@ -42,6 +44,7 @@ public class WorldRenderer {
         batch.begin();
         Vector2 posRobot = world.getRobot().getPosition();
         Vector2 posBox = world.getBox().getPosition();
+        batch.draw(background, 0, 0, 1280,800);
         batch.draw(robotImg, posRobot.x, posRobot.y, robotImg.getWidth(), robotImg.getHeight());
         batch.draw(boxImg, posBox.x, posBox.y, boxImg.getWidth() / 2, boxImg.getHeight() / 2);
         batch.end(); 

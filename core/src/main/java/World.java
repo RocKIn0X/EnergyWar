@@ -17,7 +17,7 @@ public class World {
     private EnergyWar energyWar;
     private Asset asset;
     
-    public static final Vector2 gravity = new Vector2(0, -1);
+    public static final Vector2 gravity = new Vector2(0, -1f);
     
     World(EnergyWar energyWar){
         this.energyWar = energyWar;
