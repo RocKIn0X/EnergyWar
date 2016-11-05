@@ -8,13 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnergyWar extends Game {
-	public SpriteBatch batch;
-	Texture robotImg;
-	
+
 	@Override
 	public void create () {
-            batch = new SpriteBatch();
-            setScreen(new GameScreen(this));
+
 	}
 
 	@Override
@@ -24,6 +21,6 @@ public class EnergyWar extends Game {
 	
 	@Override
 	public void dispose () {
-            batch.dispose();
+
 	}
 }
