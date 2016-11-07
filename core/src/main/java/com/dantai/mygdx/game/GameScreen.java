@@ -6,6 +6,7 @@
 package com.dantai.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -46,6 +47,10 @@ public class GameScreen extends ScreenAdapter {
     Body groundBody;
     
     World world;
+    
+    Robot robot;
+    
+    public static final float MAX_VELOCITY = 100f;
 
     public GameScreen(EnergyWar game) {
         this.game = game;
@@ -59,24 +64,8 @@ public class GameScreen extends ScreenAdapter {
         bgImg = new Sprite(background);
         
         setCam();
-        //Body of robot
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.DynamicBody;
-        bodyDef.position.set(100, 300);
         
-        robotBody = world.createBody(bodyDef);
-        
-        CircleShape circle = new CircleShape();
-        circle.setRadius(6f);
-        
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circle;
-        fixtureDef.density = 0.5f;
-        fixtureDef.restitution = 0.6f;
-        
-        Fixture fixture = robotBody.createFixture(fixtureDef);
-        
-        circle.dispose();
+        robot = new Robot(100f, 300f, world);
         
         //Body Ground
         BodyDef groundBodyDef = new BodyDef();
@@ -100,11 +89,30 @@ public class GameScreen extends ScreenAdapter {
         gamePort = new FitViewport(background.getWidth(), background.getHeight(), gameCam);
     }
     
+    public void updateMove(){
+        Vector2 velocity = robot.getBody().getLinearVelocity();
+        Vector2 position = robot.getBody().getPosition();
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x > -MAX_VELOCITY) {
+                robot.getBody().applyLinearImpulse(-50f, 0, position.x, position.y, true);
+            }
+        
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x < MAX_VELOCITY) {
+                robot.getBody().applyLinearImpulse(50f, 0, position.x, position.y, true);
+            }
+        } else {
+            robot.getBody().applyLinearImpulse(0, 0, position.x, position.y, true);
+        }
+        
+        
+    }
+    
     @Override
     public void render(float deltaTime) {
         SpriteBatch batch = game.batch;
         
-        robotImg.setPosition(robotBody.getPosition().x, robotBody.getPosition().y);
+        updateMove();
+        robotImg.setPosition(robot.getBody().getPosition().x, robot.getBody().getPosition().y);
         
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
