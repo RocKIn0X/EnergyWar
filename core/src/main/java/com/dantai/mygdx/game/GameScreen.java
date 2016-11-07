@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -43,12 +44,14 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     
+    //Box2d variables
     Body robotBody;
-    Body groundBody;
-    
+    Body groundBody;    
     World world;
+    Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
     
     Robot robot;
+    Ground ground;
     
     public static final float MAX_VELOCITY = 100f;
 
@@ -56,6 +59,7 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         
         world = new World(new Vector2(0, -50), true);
+        debugRenderer = new Box2DDebugRenderer();
         
         robotTexture = new Texture("robot.png");
         background = new Texture("Background.png");
@@ -66,20 +70,7 @@ public class GameScreen extends ScreenAdapter {
         setCam();
         
         robot = new Robot(100f, 300f, world);
-        
-        //Body Ground
-        BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(new Vector2(0, 10));
-        
-        groundBody = world.createBody(groundBodyDef);
-        
-        PolygonShape groundBox = new PolygonShape();
-        
-        groundBox.setAsBox(gameCam.viewportWidth, 10.0f);
-        
-        groundBody.createFixture(groundBox, 0.0f);
-        
-        groundBox.dispose();
+        ground = new Ground(world, gameCam);
     }
 
     public void setCam(){
@@ -122,6 +113,8 @@ public class GameScreen extends ScreenAdapter {
         batch.draw(bgImg, 0, 0);
         batch.draw(robotImg, robotImg.getX(), robotImg.getY());
         batch.end();
+        
+        debugRenderer.render(world, gameCam.combined);
         
         world.step(1/60f, 6, 2);
     }
