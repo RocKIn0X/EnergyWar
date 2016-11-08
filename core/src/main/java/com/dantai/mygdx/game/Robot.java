@@ -21,9 +21,16 @@ public class Robot {
     private Vector2 position;
     private Body robotBody;
     
+    private World world;
+    
     public Robot(float x, float y, World world){
         position = new Vector2(x, y);
         //Body of robot
+        this.world = world;
+        defineRobot();
+    }
+    
+    public void defineRobot(){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(100, 300);

@@ -20,8 +20,17 @@ public class Ground {
     private Vector2 position;
     private Body groundBody;
     
+    World world;
+    Camera gameCam;
+    
     public Ground(World world, Camera gameCam){
-        //Body Ground
+        this.world = world;
+        this.gameCam = gameCam;
+        
+        defineGround();
+    }
+    
+    private void defineGround(){
         BodyDef groundBodyDef = new BodyDef();
         groundBodyDef.position.set(new Vector2(0, 10));
         
@@ -36,7 +45,7 @@ public class Ground {
         groundBox.dispose();
     }
     
-     public Vector2 getPosition(){
+    public Vector2 getPosition(){
         return position;
     }
     

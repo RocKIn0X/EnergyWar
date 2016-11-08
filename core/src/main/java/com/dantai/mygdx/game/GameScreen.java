@@ -35,44 +35,40 @@ public class GameScreen extends ScreenAdapter {
 
     private EnergyWar game;
     
-    private Texture robotTexture;
-    private Texture background;
+    private Texture background = new Texture("Background.png");
     
     private Sprite robotImg;
     private Sprite bgImg;
-    
-    private OrthographicCamera gameCam;
-    private Viewport gamePort;
     
     //Box2d variables
     Body robotBody;
     Body groundBody;    
     World world;
-    Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+
+    private Robot robot;
+    private Ground ground;
     
-    Robot robot;
-    Ground ground;
+    private OrthographicCamera gameCam;
+    private Viewport gamePort;
+    
+    private GameWorld gameWorld;
+    private WorldRenderer worldRenderer;
     
     public static final float MAX_VELOCITY = 100f;
 
     public GameScreen(EnergyWar game) {
         this.game = game;
         
-        world = new World(new Vector2(0, -50), true);
-        debugRenderer = new Box2DDebugRenderer();
-        
-        robotTexture = new Texture("robot.png");
-        background = new Texture("Background.png");
-        
-        robotImg = new Sprite(robotTexture);
-        bgImg = new Sprite(background);
-        
         setCam();
         
-        robot = new Robot(100f, 300f, world);
-        ground = new Ground(world, gameCam);
+        world = new World(new Vector2(0, -50), true);
+        
+        gameWorld = new GameWorld(world, gameCam);
+        worldRenderer = new WorldRenderer(game, gameWorld, gameCam);
+        
+        robot = gameWorld.getRobot();
     }
-
+    
     public void setCam(){
         gameCam = new OrthographicCamera(background.getWidth(), background.getHeight());
         gameCam.translate(background.getWidth() / 2, background.getHeight() / 2, 0);
@@ -100,23 +96,10 @@ public class GameScreen extends ScreenAdapter {
     
     @Override
     public void render(float deltaTime) {
-        SpriteBatch batch = game.batch;
-        
         updateMove();
-        robotImg.setPosition(robot.getBody().getPosition().x, robot.getBody().getPosition().y);
         
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        worldRenderer.render(deltaTime);
         
-        batch.setProjectionMatrix(gameCam.combined);
-        batch.begin();
-        batch.draw(bgImg, 0, 0);
-        batch.draw(robotImg, robotImg.getX(), robotImg.getY());
-        batch.end();
-        
-        debugRenderer.render(world, gameCam.combined);
-        
-        world.step(1/60f, 6, 2);
     }
     
     @Override
