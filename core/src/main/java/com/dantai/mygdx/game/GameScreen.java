@@ -63,7 +63,9 @@ public class GameScreen extends ScreenAdapter {
     }
     
     public void setCam(){
-        gameCam = new OrthographicCamera(background.getWidth() / EnergyWar.PIXELS_TO_METERS, background.getHeight() / EnergyWar.PIXELS_TO_METERS);
+        //gameCam = new OrthographicCamera(background.getWidth() / EnergyWar.PIXELS_TO_METERS, background.getHeight() / EnergyWar.PIXELS_TO_METERS);
+        gameCam = new OrthographicCamera();
+        gameCam.setToOrtho(false, background.getWidth() / EnergyWar.PIXELS_TO_METERS, background.getHeight() / EnergyWar.PIXELS_TO_METERS);
         gameCam.translate(background.getWidth() / 2, background.getHeight() / 2, 0);
         gameCam.update();
         gamePort = new FitViewport(background.getWidth(), background.getHeight(), gameCam);

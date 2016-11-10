@@ -10,8 +10,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  *
@@ -24,6 +26,8 @@ public class Ground {
     
     World world;
     Camera gameCam;
+    
+    FixtureDef fdef = new FixtureDef();
     
     public Ground(World world, Camera gameCam){
         this.world = world;
@@ -44,7 +48,11 @@ public class Ground {
         
         groundBox.setAsBox(gameCam.viewportWidth, 10.0f / EnergyWar.PIXELS_TO_METERS);
         
-        groundBody.createFixture(groundBox, 0.0f);
+        fdef.shape = groundBox;
+        
+        groundBody.createFixture(fdef);
+        
+        
         
         groundBox.dispose();
     }
