@@ -29,6 +29,8 @@ public class GameWorld {
         world = new World(new Vector2(0, -10), true);
         robot = new Robot(100f, 300f, world);
         ground = new Ground(world, gameCam);
+        
+        world.setContactListener(new WorldContactListener());
     }
     
     public World getWorld(){

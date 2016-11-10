@@ -9,10 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnergyWar extends Game {
     public SpriteBatch batch;
-    
-    public static final float BOX_TO_WORLD = 100f;
-    public static final float WORLD_TO_BOX = 0.01f;
+
     public static final float PIXELS_TO_METERS = 100f;
+    
     @Override
     public void create () {
         batch = new SpriteBatch();

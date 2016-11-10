@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -35,7 +36,7 @@ public class Robot extends Sprite {
         
         defineRobot();
         
-        robotRect = new Rectangle(x / EnergyWar.PIXELS_TO_METERS, y / EnergyWar.PIXELS_TO_METERS, 40f / EnergyWar.PIXELS_TO_METERS, 40f / EnergyWar.PIXELS_TO_METERS);
+        //robotRect = new Rectangle(x / EnergyWar.PIXELS_TO_METERS, y / EnergyWar.PIXELS_TO_METERS, 40f / EnergyWar.PIXELS_TO_METERS, 40f / EnergyWar.PIXELS_TO_METERS);
         setBounds(robotBody.getPosition().x, robotBody.getPosition().y, 40f, 40f);
     }
     
@@ -63,6 +64,13 @@ public class Robot extends Sprite {
         //fixtureDef.restitution = 0.6f;
         
         robotBody.createFixture(fixtureDef);
+        
+        EdgeShape head =  new EdgeShape();
+        head.set(new Vector2(-20f / EnergyWar.PIXELS_TO_METERS, 20f / EnergyWar.PIXELS_TO_METERS), new Vector2(20f / EnergyWar.PIXELS_TO_METERS, 20f / EnergyWar.PIXELS_TO_METERS));
+        fixtureDef.shape = head;
+        fixtureDef.isSensor = true;
+        
+        robotBody.createFixture(fixtureDef).setUserData("head");
         
         circle.dispose();
     }

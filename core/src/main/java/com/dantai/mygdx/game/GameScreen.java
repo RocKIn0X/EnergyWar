@@ -100,8 +100,6 @@ public class GameScreen extends ScreenAdapter {
             robot.move(Robot.Direction.STILL);
         }
         
-        System.out.println(robot.getPosition());
-        System.out.println(robot.getBody().getPosition());
     }
     
     @Override
