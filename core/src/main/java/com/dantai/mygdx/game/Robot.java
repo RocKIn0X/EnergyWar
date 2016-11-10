@@ -6,6 +6,7 @@
 package com.dantai.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -19,25 +20,31 @@ import com.badlogic.gdx.physics.box2d.World;
  *
  * @author inman
  */
-public class Robot {
+public class Robot extends Sprite {
     private Vector2 position;
     private World world;
     private Body robotBody;
     private Rectangle robotRect;
     
-    public static final float SPEED = 300f;
+    public static final float SPEED = 1f;
     
     public Robot(float x, float y, World world){
-        position = new Vector2(x, y);
+        super(new Sprite(new Texture("robot.png")));
+        position = new Vector2(x / EnergyWar.PIXELS_TO_METERS, y / EnergyWar.PIXELS_TO_METERS);
         this.world = world;
         
         defineRobot();
         
-        robotRect = new Rectangle(x, y, 40f, 40f);
+        robotRect = new Rectangle(x / EnergyWar.PIXELS_TO_METERS, y / EnergyWar.PIXELS_TO_METERS, 40f / EnergyWar.PIXELS_TO_METERS, 40f / EnergyWar.PIXELS_TO_METERS);
+        setBounds(robotBody.getPosition().x, robotBody.getPosition().y, 40f, 40f);
     }
     
     public enum Direction {
         RIGHT, LEFT, UP, STILL
+    }
+    
+    public void update(float delta){
+        setPosition((getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) - getWidth() / 2, (getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) - getHeight() / 2);
     }
     
     public void defineRobot(){
@@ -48,7 +55,7 @@ public class Robot {
         robotBody = world.createBody(bodyDef);
         
         CircleShape circle = new CircleShape();
-        circle.setRadius(20f);
+        circle.setRadius(20f / EnergyWar.PIXELS_TO_METERS);
         
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;

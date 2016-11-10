@@ -39,11 +39,6 @@ public class GameScreen extends ScreenAdapter {
     
     private Sprite robotImg;
     private Sprite bgImg;
-    
-    //Box2d variables
-    Body robotBody;
-    Body groundBody;    
-    World world;
 
     private Robot robot;
     private Ground ground;
@@ -54,7 +49,7 @@ public class GameScreen extends ScreenAdapter {
     private GameWorld gameWorld;
     private WorldRenderer worldRenderer;
     
-    public static final float MAX_VELOCITY = 500f;
+    public static final float MAX_VELOCITY = 2f;
 
     public GameScreen(EnergyWar game) {
         this.game = game;
@@ -68,15 +63,24 @@ public class GameScreen extends ScreenAdapter {
     }
     
     public void setCam(){
-        gameCam = new OrthographicCamera(background.getWidth(), background.getHeight());
+        gameCam = new OrthographicCamera(background.getWidth() / EnergyWar.PIXELS_TO_METERS, background.getHeight() / EnergyWar.PIXELS_TO_METERS);
         gameCam.translate(background.getWidth() / 2, background.getHeight() / 2, 0);
         gameCam.update();
         gamePort = new FitViewport(background.getWidth(), background.getHeight(), gameCam);
     }
     
-    public void updateMove(){
+    public void update(float delta){
+        updateMove(delta);
+        
+        gameWorld.getWorld().step(1 / 60f, 6, 2);
+        
+        robot.update(delta);
+        
+        gameCam.update();
+    }
+    
+    public void updateMove(float delta){
         Vector2 velocity = robot.getBody().getLinearVelocity();
-        Vector2 position = robot.getBody().getPosition();
         
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             
@@ -95,14 +99,16 @@ public class GameScreen extends ScreenAdapter {
         } else {
             robot.move(Robot.Direction.STILL);
         }
+        
+        System.out.println(robot.getPosition());
+        System.out.println(robot.getBody().getPosition());
     }
     
     @Override
     public void render(float deltaTime) {
-        updateMove();
+        update(deltaTime);
         
         worldRenderer.render(deltaTime);
-        
     }
     
     @Override

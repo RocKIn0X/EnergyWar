@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -56,7 +57,7 @@ public class WorldRenderer {
     public void render(float delta){
         batch = game.batch;
         
-        robotImg.setPosition(robot.getBody().getPosition().x - robotImg.getWidth() / 2, robot.getBody().getPosition().y - robotImg.getHeight() / 2);
+        //robotImg.setPosition(robot.getBody().getPosition().x * EnergyWar.WORLD_TO_BOX, robot.getBody().getPosition().y * EnergyWar.WORLD_TO_BOX);
         
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -64,11 +65,10 @@ public class WorldRenderer {
         batch.setProjectionMatrix(gameCam.combined);
         batch.begin();
         batch.draw(bgImg, 0, 0);
-        batch.draw(robotImg, robotImg.getX(), robotImg.getY());
+        gameWorld.getRobot().draw(batch);
         batch.end();
         
-        debugRenderer.render(gameWorld.getWorld(), gameCam.combined);
-        
-        gameWorld.getWorld().step(1/60f, 6, 2);
+        Matrix4 cameraCopy = gameCam.combined.cpy();
+        debugRenderer.render(gameWorld.getWorld(), cameraCopy.scl(EnergyWar.PIXELS_TO_METERS));
     }
 }

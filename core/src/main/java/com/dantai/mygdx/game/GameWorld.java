@@ -26,7 +26,7 @@ public class GameWorld {
     public GameWorld(Camera gameCam){  
         this.gameCam = gameCam;
         
-        world = new World(new Vector2(0, -100), true);
+        world = new World(new Vector2(0, -10), true);
         robot = new Robot(100f, 300f, world);
         ground = new Ground(world, gameCam);
     }

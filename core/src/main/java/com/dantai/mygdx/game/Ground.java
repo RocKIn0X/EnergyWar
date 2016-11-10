@@ -31,18 +31,18 @@ public class Ground {
         
         defineGround();
         
-        rectGround = new Rectangle(groundBody.getPosition().x, groundBody.getPosition().y, gameCam.viewportWidth, 10.0f);
+        rectGround = new Rectangle(groundBody.getPosition().x, groundBody.getPosition().y, gameCam.viewportWidth, 10.0f / EnergyWar.PIXELS_TO_METERS);
     }
     
     private void defineGround(){
         BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(new Vector2(0, 10));
+        groundBodyDef.position.set(new Vector2(0, 10 / EnergyWar.PIXELS_TO_METERS));
         
         groundBody = world.createBody(groundBodyDef);
         
         PolygonShape groundBox = new PolygonShape();
         
-        groundBox.setAsBox(gameCam.viewportWidth, 10.0f);
+        groundBox.setAsBox(gameCam.viewportWidth, 10.0f / EnergyWar.PIXELS_TO_METERS);
         
         groundBody.createFixture(groundBox, 0.0f);
         
