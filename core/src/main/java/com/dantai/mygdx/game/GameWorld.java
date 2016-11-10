@@ -29,8 +29,6 @@ public class GameWorld {
         
         robot = new Robot(100f, 300f, world);
         ground = new Ground(world, gameCam);
-        
-        
     }
     
     public World getWorld(){

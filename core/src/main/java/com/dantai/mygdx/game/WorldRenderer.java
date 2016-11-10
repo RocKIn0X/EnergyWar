@@ -56,7 +56,7 @@ public class WorldRenderer {
     public void render(float delta){
         batch = game.batch;
         
-        robotImg.setPosition(robot.getBody().getPosition().x, robot.getBody().getPosition().y);
+        robotImg.setPosition(robot.getBody().getPosition().x - robotImg.getWidth() / 2, robot.getBody().getPosition().y - robotImg.getHeight() / 2);
         
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

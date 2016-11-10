@@ -62,7 +62,6 @@ public class GameScreen extends ScreenAdapter {
         setCam();
         
         world = new World(new Vector2(0, -50), true);
-        
         gameWorld = new GameWorld(world, gameCam);
         worldRenderer = new WorldRenderer(game, gameWorld, gameCam);
         
@@ -79,19 +78,24 @@ public class GameScreen extends ScreenAdapter {
     public void updateMove(){
         Vector2 velocity = robot.getBody().getLinearVelocity();
         Vector2 position = robot.getBody().getPosition();
+        
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+            
             if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x > -MAX_VELOCITY) {
-                robot.getBody().applyLinearImpulse(-50f, 0, position.x, position.y, true);
+                robot.move(Robot.Direction.LEFT);
             }
         
             if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x < MAX_VELOCITY) {
-                robot.getBody().applyLinearImpulse(50f, 0, position.x, position.y, true);
+                robot.move(Robot.Direction.RIGHT);
             }
+            
+            if (Gdx.input.isKeyPressed(Input.Keys.W) && velocity.y < MAX_VELOCITY) {
+                robot.move(Robot.Direction.UP);
+            }
+        
         } else {
-            robot.getBody().applyLinearImpulse(0, 0, position.x, position.y, true);
+            robot.move(Robot.Direction.STILL);
         }
-        
-        
     }
     
     @Override
