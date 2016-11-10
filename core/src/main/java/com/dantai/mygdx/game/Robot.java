@@ -6,6 +6,7 @@
 package com.dantai.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -22,14 +23,17 @@ public class Robot {
     private Vector2 position;
     private World world;
     private Body robotBody;
+    private Rectangle robotRect;
     
-    public static final float SPEED = 100f;
+    public static final float SPEED = 300f;
     
     public Robot(float x, float y, World world){
         position = new Vector2(x, y);
         this.world = world;
         
         defineRobot();
+        
+        robotRect = new Rectangle(x, y, 40f, 40f);
     }
     
     public enum Direction {
@@ -48,9 +52,8 @@ public class Robot {
         
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
-        fixtureDef.density = 0.5f;
-        fixtureDef.friction = 10f;
-        fixtureDef.restitution = 0.6f;
+        //fixtureDef.density = 0.5f;
+        //fixtureDef.restitution = 0.6f;
         
         robotBody.createFixture(fixtureDef);
         
@@ -60,27 +63,31 @@ public class Robot {
     public void move(Direction dir){
         switch (dir) {
             case RIGHT:
-                robotBody.applyLinearImpulse(SPEED, 0, position.x, position.y, true);
+                robotBody.applyLinearImpulse(new Vector2(SPEED, 0), robotBody.getWorldCenter(), true);
                 break;
             case LEFT:
-                robotBody.applyLinearImpulse(-SPEED, 0, position.x, position.y, true);
+                robotBody.applyLinearImpulse(new Vector2(-SPEED, 0), robotBody.getWorldCenter(), true);
                 break;
             case UP:
-                robotBody.applyLinearImpulse(0, SPEED, position.x, position.y, true);
+                robotBody.applyLinearImpulse(new Vector2(0, SPEED * 5), robotBody.getWorldCenter(), true);
                 break;
             default:
-                robotBody.applyLinearImpulse(0, 0, position.x, position.y, true);
+                robotBody.applyLinearImpulse(new Vector2(0, 0), robotBody.getWorldCenter(), true);
                 break;
         }
         
         
     }
     
-    public Vector2 getPosition(){
+    public Vector2 getPosition() {
         return position;
     }
     
-    public Body getBody(){
+    public Body getBody() {
         return robotBody;
+    }
+    
+    public Rectangle getRectangle() {
+        return robotRect;
     }
 }

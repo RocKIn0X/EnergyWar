@@ -54,15 +54,14 @@ public class GameScreen extends ScreenAdapter {
     private GameWorld gameWorld;
     private WorldRenderer worldRenderer;
     
-    public static final float MAX_VELOCITY = 100f;
+    public static final float MAX_VELOCITY = 500f;
 
     public GameScreen(EnergyWar game) {
         this.game = game;
         
         setCam();
         
-        world = new World(new Vector2(0, -50), true);
-        gameWorld = new GameWorld(world, gameCam);
+        gameWorld = new GameWorld(gameCam);
         worldRenderer = new WorldRenderer(game, gameWorld, gameCam);
         
         robot = gameWorld.getRobot();
@@ -81,15 +80,15 @@ public class GameScreen extends ScreenAdapter {
         
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x > -MAX_VELOCITY) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x >= -MAX_VELOCITY) {
                 robot.move(Robot.Direction.LEFT);
             }
         
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x < MAX_VELOCITY) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x <= MAX_VELOCITY) {
                 robot.move(Robot.Direction.RIGHT);
             }
             
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && velocity.y < MAX_VELOCITY) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
                 robot.move(Robot.Direction.UP);
             }
         

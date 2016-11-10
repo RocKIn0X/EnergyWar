@@ -6,6 +6,7 @@
 package com.dantai.mygdx.game;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Ground {
     private Vector2 position;
     private Body groundBody;
+    private Rectangle rectGround;
     
     World world;
     Camera gameCam;
@@ -28,6 +30,8 @@ public class Ground {
         this.gameCam = gameCam;
         
         defineGround();
+        
+        rectGround = new Rectangle(groundBody.getPosition().x, groundBody.getPosition().y, gameCam.viewportWidth, 10.0f);
     }
     
     private void defineGround(){
