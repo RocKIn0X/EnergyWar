@@ -23,7 +23,7 @@ public class GameWorld {
     private Robot robot;
     private Ground ground;
     
-    public GameWorld(Camera gameCam){  
+    public GameWorld (Camera gameCam) {  
         this.gameCam = gameCam;
         
         world = new World(new Vector2(0, -10), true);
@@ -33,15 +33,15 @@ public class GameWorld {
         world.setContactListener(new WorldContactListener());
     }
     
-    public World getWorld(){
+    public World getWorld () {
         return world;
     }
     
-    public Robot getRobot(){
+    public Robot getRobot () {
         return robot;
     }
     
-    public Ground getGround(){
+    public Ground getGround () {
         return ground;
     }
 }

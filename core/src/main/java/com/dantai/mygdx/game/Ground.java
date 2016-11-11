@@ -29,39 +29,34 @@ public class Ground {
     
     FixtureDef fdef = new FixtureDef();
     
-    public Ground(World world, Camera gameCam){
+    public Ground (World world, Camera gameCam) {
         this.world = world;
         this.gameCam = gameCam;
         
         defineGround();
-        
         rectGround = new Rectangle(groundBody.getPosition().x, groundBody.getPosition().y, gameCam.viewportWidth, 10.0f / EnergyWar.PIXELS_TO_METERS);
     }
     
-    private void defineGround(){
+    private void defineGround () {
         BodyDef groundBodyDef = new BodyDef();
         groundBodyDef.position.set(new Vector2(0, 10 / EnergyWar.PIXELS_TO_METERS));
         
         groundBody = world.createBody(groundBodyDef);
         
         PolygonShape groundBox = new PolygonShape();
-        
         groundBox.setAsBox(gameCam.viewportWidth, 10.0f / EnergyWar.PIXELS_TO_METERS);
         
         fdef.shape = groundBox;
         
-        groundBody.createFixture(fdef);
-        
-        
-        
+        groundBody.createFixture(fdef);     
         groundBox.dispose();
     }
     
-    public Vector2 getPosition(){
+    public Vector2 getPosition () {
         return position;
     }
     
-    public Body getBody(){
+    public Body getBody () {
         return groundBody;
     }
 }

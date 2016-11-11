@@ -36,12 +36,8 @@ public class GameScreen extends ScreenAdapter {
     private EnergyWar game;
     
     private Texture background = new Texture("Background.png");
-    
-    private Sprite robotImg;
-    private Sprite bgImg;
 
     private Robot robot;
-    private Ground ground;
     
     private OrthographicCamera gameCam;
     private Viewport gamePort;
@@ -58,12 +54,10 @@ public class GameScreen extends ScreenAdapter {
         
         gameWorld = new GameWorld(gameCam);
         worldRenderer = new WorldRenderer(game, gameWorld, gameCam);
-        
         robot = gameWorld.getRobot();
     }
     
     public void setCam(){
-        //gameCam = new OrthographicCamera(background.getWidth() / EnergyWar.PIXELS_TO_METERS, background.getHeight() / EnergyWar.PIXELS_TO_METERS);
         gameCam = new OrthographicCamera();
         gameCam.setToOrtho(false, background.getWidth() / EnergyWar.PIXELS_TO_METERS, background.getHeight() / EnergyWar.PIXELS_TO_METERS);
         gameCam.translate(background.getWidth() / 2, background.getHeight() / 2, 0);
@@ -71,17 +65,15 @@ public class GameScreen extends ScreenAdapter {
         gamePort = new FitViewport(background.getWidth(), background.getHeight(), gameCam);
     }
     
-    public void update(float delta){
+    public void update (float delta) {
         updateMove(delta);
         
-        gameWorld.getWorld().step(1 / 60f, 6, 2);
-        
-        robot.update(delta);
-        
+        gameWorld.getWorld().step(1 / 60f, 6, 2);        
+        robot.update(delta);        
         gameCam.update();
     }
     
-    public void updateMove(float delta){
+    public void updateMove (float delta) {
         Vector2 velocity = robot.getBody().getLinearVelocity();
         
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
@@ -98,21 +90,21 @@ public class GameScreen extends ScreenAdapter {
                 robot.move(Robot.Direction.UP);
             }
         
-        } else {
+        } else {    
             robot.move(Robot.Direction.STILL);
         }
         
     }
     
     @Override
-    public void render(float deltaTime) {
+    public void render (float deltaTime) {
         update(deltaTime);
         
         worldRenderer.render(deltaTime);
     }
     
     @Override
-    public void resize(int width, int height){
+    public void resize (int width, int height) {
         gamePort.update(width, height);
     }
 }

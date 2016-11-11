@@ -29,14 +29,14 @@ public class Robot extends Sprite {
     
     public static final float SPEED = 1f;
     
-    public Robot(float x, float y, World world){
+    public Robot (float x, float y, World world) {
         super(new Sprite(new Texture("robot.png")));
+        
         position = new Vector2(x / EnergyWar.PIXELS_TO_METERS, y / EnergyWar.PIXELS_TO_METERS);
         this.world = world;
         
         defineRobot();
         
-        //robotRect = new Rectangle(x / EnergyWar.PIXELS_TO_METERS, y / EnergyWar.PIXELS_TO_METERS, 40f / EnergyWar.PIXELS_TO_METERS, 40f / EnergyWar.PIXELS_TO_METERS);
         setBounds(robotBody.getPosition().x, robotBody.getPosition().y, 40f, 40f);
     }
     
@@ -60,8 +60,6 @@ public class Robot extends Sprite {
         
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
-        //fixtureDef.density = 0.5f;
-        //fixtureDef.restitution = 0.6f;
         
         robotBody.createFixture(fixtureDef);
         
@@ -75,7 +73,7 @@ public class Robot extends Sprite {
         circle.dispose();
     }
     
-    public void move(Direction dir){
+    public void move (Direction dir) {
         switch (dir) {
             case RIGHT:
                 robotBody.applyLinearImpulse(new Vector2(SPEED, 0), robotBody.getWorldCenter(), true);
@@ -89,16 +87,14 @@ public class Robot extends Sprite {
             default:
                 robotBody.applyLinearImpulse(new Vector2(0, 0), robotBody.getWorldCenter(), true);
                 break;
-        }
-        
-        
+        }      
     }
     
-    public Vector2 getPosition() {
+    public Vector2 getPosition () {
         return position;
     }
     
-    public Body getBody() {
+    public Body getBody () {
         return robotBody;
     }
     

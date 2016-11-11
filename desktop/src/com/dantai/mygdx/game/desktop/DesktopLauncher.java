@@ -9,6 +9,7 @@ public class DesktopLauncher {
         config.title = "Energy war";
         config.width = 800;
         config.height = 480;
+        
         new LwjglApplication(new EnergyWar(), config);
     }
 }

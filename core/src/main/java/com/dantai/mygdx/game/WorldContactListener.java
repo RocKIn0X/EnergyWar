@@ -15,36 +15,35 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  *
  * @author inman
  */
-class WorldContactListener implements ContactListener{
+class WorldContactListener implements ContactListener {
 
-    public WorldContactListener() {
+    public WorldContactListener () {
+        
     }
 
     @Override
-    public void beginContact(Contact contact) {
+    public void beginContact (Contact contact) {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
-     
-        if (fixA.getUserData() == "head" || fixB.getUserData() == "head") {
-            Fixture head = fixA.getUserData() == "head" ? fixA : fixB;
-            Fixture object = head == fixA ? fixB : fixA;
-            
-            //if(object.getUserData() != null && )
-        }
+        
+        System.out.println("beginContact between " + fixA.toString() + " and " + fixB.toString());
     }
 
     @Override
-    public void endContact(Contact contact) {
-        System.out.println("End contact.");
+    public void endContact (Contact contact) {
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
+        
+        System.out.println("endContact between " + fixA.toString() + " and " + fixB.toString());
     }
 
     @Override
-    public void preSolve(Contact cntct, Manifold mnfld) {
+    public void preSolve (Contact cntct, Manifold mnfld) {
 
     }
 
     @Override
-    public void postSolve(Contact cntct, ContactImpulse ci) {
+    public void postSolve (Contact cntct, ContactImpulse ci) {
 
     }
     

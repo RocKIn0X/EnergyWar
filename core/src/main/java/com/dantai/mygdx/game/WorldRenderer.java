@@ -57,12 +57,11 @@ public class WorldRenderer {
     public void render(float delta){
         batch = game.batch;
         
-        //robotImg.setPosition(robot.getBody().getPosition().x * EnergyWar.WORLD_TO_BOX, robot.getBody().getPosition().y * EnergyWar.WORLD_TO_BOX);
-        
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.setProjectionMatrix(gameCam.combined);
+        
         batch.begin();
         batch.draw(bgImg, 0, 0);
         gameWorld.getRobot().draw(batch);
