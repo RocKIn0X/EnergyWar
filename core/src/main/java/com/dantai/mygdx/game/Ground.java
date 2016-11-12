@@ -52,6 +52,10 @@ public class Ground {
         groundBox.dispose();
     }
     
+    void onGround() {
+        System.out.println("Ground: Collision");
+    }
+    
     public Vector2 getPosition () {
         return position;
     }

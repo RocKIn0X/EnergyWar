@@ -64,11 +64,11 @@ public class Robot extends Sprite {
         robotBody.createFixture(fixtureDef);
         
         EdgeShape head =  new EdgeShape();
-        head.set(new Vector2(-20f / EnergyWar.PIXELS_TO_METERS, 20f / EnergyWar.PIXELS_TO_METERS), new Vector2(20f / EnergyWar.PIXELS_TO_METERS, 20f / EnergyWar.PIXELS_TO_METERS));
+        head.set(new Vector2(-10f / EnergyWar.PIXELS_TO_METERS, -20f / EnergyWar.PIXELS_TO_METERS), new Vector2(10f / EnergyWar.PIXELS_TO_METERS, -20f / EnergyWar.PIXELS_TO_METERS));
         fixtureDef.shape = head;
         fixtureDef.isSensor = true;
         
-        robotBody.createFixture(fixtureDef).setUserData("head");
+        robotBody.createFixture(fixtureDef).setUserData("under");
         
         circle.dispose();
     }
@@ -100,5 +100,9 @@ public class Robot extends Sprite {
     
     public Rectangle getRectangle() {
         return robotRect;
+    }
+    
+    public void contact(){
+        System.out.println("Robot contact!");
     }
 }

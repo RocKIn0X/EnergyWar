@@ -26,22 +26,28 @@ class WorldContactListener implements ContactListener {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
         
-        System.out.println("beginContact between " + fixA.toString() + " and " + fixB.toString());
+        if(fixA.getUserData() == "under" || fixB.getUserData() == "under") {
+            Fixture under = fixA.getUserData() == "under" ? fixA : fixB;
+            Fixture object = under == fixA ? fixB : fixA;
+            
+            System.out.println("hello");
+            
+            if(object.getUserData() != null && Ground.class.isAssignableFrom(object.getUserData().getClass())) {
+                ((Ground) object.getUserData()).onGround();
+            }
+        }
     }
 
     @Override
     public void endContact (Contact contact) {
-        Fixture fixA = contact.getFixtureA();
-        Fixture fixB = contact.getFixtureB();
-        
-        System.out.println("endContact between " + fixA.toString() + " and " + fixB.toString());
+
     }
 
     @Override
     public void preSolve (Contact cntct, Manifold mnfld) {
 
     }
-
+    
     @Override
     public void postSolve (Contact cntct, ContactImpulse ci) {
 
