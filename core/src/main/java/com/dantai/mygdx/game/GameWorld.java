@@ -33,6 +33,13 @@ public class GameWorld {
         world.setContactListener(new WorldContactListener());
     }
     
+    public void update (float delta) {
+        world.step(1 / 60f, 6, 2);
+        
+        robot.update(delta);
+        gameCam.update();
+    }
+    
     public boolean checkJump () {
         //System.out.println(robot.getRectangle().getX() + " | " + robot.getRectangle().getY());
         //System.out.println((ground.getRectangle().getX() + ground.getRectangle().getWidth()) + " | " + (ground.getRectangle().getY() + ground.getRectangle().getHeight()));

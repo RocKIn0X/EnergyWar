@@ -39,7 +39,7 @@ public class Robot extends Sprite {
         
         setBounds(robotBody.getPosition().x, robotBody.getPosition().y, 40f, 40f);
         
-        robotRect = new Rectangle(robotBody.getPosition().x, robotBody.getPosition().y, 40f, 40f);
+        robotRect = new Rectangle(robotBody.getPosition().x, robotBody.getPosition().y, 20f, 40f);
     }
     
     public enum Direction {

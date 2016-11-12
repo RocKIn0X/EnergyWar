@@ -66,14 +66,6 @@ public class GameScreen extends ScreenAdapter {
         gamePort = new FitViewport(background.getWidth(), background.getHeight(), gameCam);
     }
     
-    public void update (float delta) {
-        updateMove(delta);
-        
-        gameWorld.getWorld().step(1 / 60f, 6, 2);        
-        robot.update(delta);        
-        gameCam.update();
-    }
-    
     public void updateMove (float delta) {
         Vector2 velocity = robot.getBody().getLinearVelocity();
         
@@ -103,8 +95,9 @@ public class GameScreen extends ScreenAdapter {
     
     @Override
     public void render (float deltaTime) {
-        update(deltaTime);
+        updateMove(deltaTime);
         
+        gameWorld.update(deltaTime);
         worldRenderer.render(deltaTime);
     }
     

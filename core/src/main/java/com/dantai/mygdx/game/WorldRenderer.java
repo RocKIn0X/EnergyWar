@@ -47,9 +47,6 @@ public class WorldRenderer {
         
         robotImg = new Sprite(robotTexture);
         bgImg = new Sprite(background);
-        
-        robot = gameWorld.getRobot();
-        ground = gameWorld.getGround();
     }
     
     
