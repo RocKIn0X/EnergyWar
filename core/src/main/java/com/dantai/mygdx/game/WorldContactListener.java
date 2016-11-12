@@ -23,7 +23,7 @@ class WorldContactListener implements ContactListener {
 
     @Override
     public void beginContact (Contact contact) {
-        Fixture fixA = contact.getFixtureA();
+        /*Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
         
         if(fixA.getUserData() == "under" || fixB.getUserData() == "under") {
@@ -35,7 +35,7 @@ class WorldContactListener implements ContactListener {
             if(object.getUserData() != null && Ground.class.isAssignableFrom(object.getUserData().getClass())) {
                 ((Ground) object.getUserData()).onGround();
             }
-        }
+        } */
     }
 
     @Override

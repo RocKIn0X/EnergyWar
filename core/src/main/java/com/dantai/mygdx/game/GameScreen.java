@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -35,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
 
     private EnergyWar game;
     
-    private Texture background = new Texture("Background.png");
+    private Texture background = new Texture("city.jpg");
 
     private Robot robot;
     
@@ -87,7 +88,11 @@ public class GameScreen extends ScreenAdapter {
             }
             
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-                robot.move(Robot.Direction.UP);
+                if(gameWorld.checkJump()) {
+                    System.out.println("Jump!");
+                    robot.move(Robot.Direction.UP);
+                }              
+                System.out.println("Can't jump!");
             }
         
         } else {    

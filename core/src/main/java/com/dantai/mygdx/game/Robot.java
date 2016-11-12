@@ -38,6 +38,8 @@ public class Robot extends Sprite {
         defineRobot();
         
         setBounds(robotBody.getPosition().x, robotBody.getPosition().y, 40f, 40f);
+        
+        robotRect = new Rectangle(robotBody.getPosition().x, robotBody.getPosition().y, 40f, 40f);
     }
     
     public enum Direction {
@@ -46,6 +48,10 @@ public class Robot extends Sprite {
     
     public void update(float delta){
         setPosition((getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) - getWidth() / 2, (getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) - getHeight() / 2);
+        robotRect.setPosition(getX() / EnergyWar.PIXELS_TO_METERS, getY() / EnergyWar.PIXELS_TO_METERS);
+        //System.out.println(robotBody.getPosition().y);
+        //System.out.println(robotRect.getY());
+        //System.out.println("---------------");
     }
     
     public void defineRobot(){
@@ -100,9 +106,5 @@ public class Robot extends Sprite {
     
     public Rectangle getRectangle() {
         return robotRect;
-    }
-    
-    public void contact(){
-        System.out.println("Robot contact!");
     }
 }

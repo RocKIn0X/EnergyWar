@@ -43,7 +43,7 @@ public class WorldRenderer {
         this.gameCam = gameCam;
         
         robotTexture = new Texture("robot.png");
-        background = new Texture("Background.png");
+        background = new Texture("city.jpg");
         
         robotImg = new Sprite(robotTexture);
         bgImg = new Sprite(background);

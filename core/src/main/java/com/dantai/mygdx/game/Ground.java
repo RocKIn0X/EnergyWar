@@ -34,7 +34,8 @@ public class Ground {
         this.gameCam = gameCam;
         
         defineGround();
-        rectGround = new Rectangle(groundBody.getPosition().x, groundBody.getPosition().y, gameCam.viewportWidth, 10.0f / EnergyWar.PIXELS_TO_METERS);
+        rectGround = new Rectangle(groundBody.getPosition().x, groundBody.getPosition().y, gameCam.viewportWidth, 12.0f / EnergyWar.PIXELS_TO_METERS);
+        System.out.println(groundBody.getPosition().y);
     }
     
     private void defineGround () {
@@ -62,5 +63,9 @@ public class Ground {
     
     public Body getBody () {
         return groundBody;
+    }
+    
+    public Rectangle getRectangle () {
+        return rectGround;
     }
 }

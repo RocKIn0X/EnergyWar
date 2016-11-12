@@ -33,6 +33,13 @@ public class GameWorld {
         world.setContactListener(new WorldContactListener());
     }
     
+    public boolean checkJump () {
+        //System.out.println(robot.getRectangle().getX() + " | " + robot.getRectangle().getY());
+        //System.out.println((ground.getRectangle().getX() + ground.getRectangle().getWidth()) + " | " + (ground.getRectangle().getY() + ground.getRectangle().getHeight()));
+        
+        return robot.getRectangle().overlaps(ground.getRectangle());
+    } 
+    
     public World getWorld () {
         return world;
     }
