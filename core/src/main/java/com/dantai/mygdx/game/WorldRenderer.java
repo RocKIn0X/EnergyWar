@@ -27,26 +27,29 @@ public class WorldRenderer {
     private Camera gameCam;
     
     private SpriteBatch batch;
-    private Texture robotTexture;
-    private Texture background;
     private Sprite robotImg;
     private Sprite bgImg;
+    private Sprite bgImg2;
+    private Sprite bgImg3;
+    private Sprite bgImg4;
+    
     
     private Robot robot;
     private Ground ground;
    
     Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
     
+    
     public WorldRenderer(EnergyWar game, GameWorld gameWorld, Camera gameCam){
         this.game = game;
         this.gameWorld = gameWorld;
         this.gameCam = gameCam;
-        
-        robotTexture = new Texture("robot.png");
-        background = new Texture("city.jpg");
-        
-        robotImg = new Sprite(robotTexture);
-        bgImg = new Sprite(background);
+
+        robotImg = new Sprite(new Texture("robot.png"));
+        bgImg = new Sprite(new Texture("city2.jpg"));
+        bgImg2 = new Sprite(new Texture("city3.jpg"));
+        bgImg3 = new Sprite(new Texture("underground.jpg"));
+        bgImg4 = new Sprite(new Texture("last.jpg"));
     }
     
     
@@ -61,6 +64,9 @@ public class WorldRenderer {
         
         batch.begin();
         batch.draw(bgImg, 0, 0);
+        batch.draw(bgImg2, -1920, 0);
+        batch.draw(bgImg3, 0, -1080);
+        batch.draw(bgImg4, -1920, -1080);
         gameWorld.getRobot().draw(batch);
         batch.end();
         

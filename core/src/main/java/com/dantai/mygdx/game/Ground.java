@@ -35,7 +35,7 @@ public class Ground {
         
         defineGround();
         rectGround = new Rectangle(groundBody.getPosition().x, groundBody.getPosition().y, gameCam.viewportWidth, 12.0f / EnergyWar.PIXELS_TO_METERS);
-        System.out.println(groundBody.getPosition().y);
+        System.out.println(gameCam.viewportWidth);
     }
     
     private void defineGround () {

@@ -27,7 +27,7 @@ public class Robot extends Sprite {
     private Body robotBody;
     private Rectangle robotRect;
     
-    public static final float SPEED = 1f;
+    public static final float SPEED = 0.5f;
     
     public Robot (float x, float y, World world) {
         super(new Sprite(new Texture("robot.png")));
@@ -88,7 +88,7 @@ public class Robot extends Sprite {
                 robotBody.applyLinearImpulse(new Vector2(-SPEED, 0), robotBody.getWorldCenter(), true);
                 break;
             case UP:
-                robotBody.applyLinearImpulse(new Vector2(0, SPEED * 5), robotBody.getWorldCenter(), true);
+                robotBody.applyLinearImpulse(new Vector2(0, SPEED * 12), robotBody.getWorldCenter(), true);
                 break;
             default:
                 robotBody.applyLinearImpulse(new Vector2(0, 0), robotBody.getWorldCenter(), true);

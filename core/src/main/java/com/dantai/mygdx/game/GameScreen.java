@@ -36,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
 
     private EnergyWar game;
     
-    private Texture background = new Texture("city.jpg");
+    private Texture background = new Texture("city2.jpg");
 
     private Robot robot;
     
@@ -93,9 +93,16 @@ public class GameScreen extends ScreenAdapter {
         
     }
     
+    public void updateCam(){
+        gameCam.position.x = (robot.getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) + 500f;
+        gameCam.position.y = (robot.getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) + 500f;
+        //System.out.println(gameCam.position.x + " | " + gameCam.position.y);
+    }
+    
     @Override
     public void render (float deltaTime) {
         updateMove(deltaTime);
+        updateCam();
         
         gameWorld.update(deltaTime);
         worldRenderer.render(deltaTime);
