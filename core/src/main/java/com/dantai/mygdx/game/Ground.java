@@ -41,7 +41,7 @@ public class Ground {
     
     private void defineGround () {
         BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(new Vector2(1920 / EnergyWar.PIXELS_TO_METERS, 1080 / EnergyWar.PIXELS_TO_METERS));
+        groundBodyDef.position.set(new Vector2(1920 / EnergyWar.PIXELS_TO_METERS, 1070 / EnergyWar.PIXELS_TO_METERS));
         
         groundBody = world.createBody(groundBodyDef);
         

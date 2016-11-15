@@ -54,7 +54,6 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(EnergyWar game) {
         this.game = game;
         
-        
         setCam();
         
         gameWorld = new GameWorld(gameCam);
@@ -91,10 +90,10 @@ public class GameScreen extends ScreenAdapter {
             }
             
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-                if(gameWorld.checkJump()) {
+                //if(gameWorld.checkJump()) {
                     System.out.println("Jump!");
                     robot.move(Robot.Direction.UP);
-                }              
+                //}              
                 System.out.println("Can't jump!");
             }
         
@@ -105,8 +104,8 @@ public class GameScreen extends ScreenAdapter {
     }
     
     public void updateCam(){
-        gameCam.position.x = (robot.getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) + 500f;
-        gameCam.position.y = (robot.getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) + 50f;
+        gameCam.position.x = (robot.getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS);
+        gameCam.position.y = (robot.getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS);
         //System.out.println(gameCam.position.x + " | " + gameCam.position.y);
         gameCam.update();
     }
