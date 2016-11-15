@@ -12,10 +12,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDynamic.map;
 
 /**
  *
@@ -24,7 +28,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class WorldRenderer {
     private EnergyWar game;
     private GameWorld gameWorld;
-    private Camera gameCam;
+    private OrthographicCamera gameCam;
     
     private SpriteBatch batch;
     private Sprite robotImg;
@@ -33,23 +37,30 @@ public class WorldRenderer {
     private Sprite bgImg3;
     private Sprite bgImg4;
     
-    
     private Robot robot;
     private Ground ground;
+    
+    private TmxMapLoader maploader;
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
    
     Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
     
     
-    public WorldRenderer(EnergyWar game, GameWorld gameWorld, Camera gameCam){
+    public WorldRenderer(EnergyWar game, GameWorld gameWorld, OrthographicCamera gameCam){
         this.game = game;
         this.gameWorld = gameWorld;
         this.gameCam = gameCam;
 
         robotImg = new Sprite(new Texture("robot.png"));
-        bgImg = new Sprite(new Texture("city2.jpg"));
-        bgImg2 = new Sprite(new Texture("city3.jpg"));
-        bgImg3 = new Sprite(new Texture("underground.jpg"));
-        bgImg4 = new Sprite(new Texture("last.jpg"));
+        
+        maploader = new TmxMapLoader();
+        map = maploader.load("map.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map);
+        //bgImg = new Sprite(new Texture("city2.jpg"));
+        //bgImg2 = new Sprite(new Texture("city3.jpg"));
+       // bgImg3 = new Sprite(new Texture("underground.jpg"));
+        //bgImg4 = new Sprite(new Texture("last.jpg"));
     }
     
     
@@ -60,13 +71,15 @@ public class WorldRenderer {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
+        renderer.setView(gameCam);
+        renderer.render();
         batch.setProjectionMatrix(gameCam.combined);
         
         batch.begin();
-        batch.draw(bgImg, 0, 0);
-        batch.draw(bgImg2, -1920, 0);
-        batch.draw(bgImg3, 0, -1080);
-        batch.draw(bgImg4, -1920, -1080);
+       // batch.draw(bgImg, 0, 0);
+        //batch.draw(bgImg2, -1920, 0);
+        //batch.draw(bgImg3, 0, -1080);
+        //batch.draw(bgImg4, -1920, -1080);
         gameWorld.getRobot().draw(batch);
         batch.end();
         

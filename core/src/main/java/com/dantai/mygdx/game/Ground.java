@@ -35,12 +35,13 @@ public class Ground {
         
         defineGround();
         rectGround = new Rectangle(groundBody.getPosition().x, groundBody.getPosition().y, gameCam.viewportWidth, 12.0f / EnergyWar.PIXELS_TO_METERS);
-        System.out.println(gameCam.viewportWidth);
+        System.out.println(rectGround.x + " | " + rectGround.y);
+        System.out.println(rectGround.width +" | " + rectGround.height);
     }
     
     private void defineGround () {
         BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(new Vector2(0, 10 / EnergyWar.PIXELS_TO_METERS));
+        groundBodyDef.position.set(new Vector2(1920 / EnergyWar.PIXELS_TO_METERS, 1080 / EnergyWar.PIXELS_TO_METERS));
         
         groundBody = world.createBody(groundBodyDef);
         

@@ -14,6 +14,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -51,19 +54,27 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(EnergyWar game) {
         this.game = game;
         
+        
         setCam();
         
         gameWorld = new GameWorld(gameCam);
         worldRenderer = new WorldRenderer(game, gameWorld, gameCam);
         robot = gameWorld.getRobot();
+        
+        gameCam.position.set(gamePort.getScreenWidth() / 2, gamePort.getScreenHeight() / 2, 0);
     }
     
-    public void setCam(){
+    public void setCam () {
         gameCam = new OrthographicCamera();
         gameCam.setToOrtho(false, background.getWidth() / EnergyWar.PIXELS_TO_METERS, background.getHeight() / EnergyWar.PIXELS_TO_METERS);
         gameCam.translate(background.getWidth() / 2, background.getHeight() / 2, 0);
         gameCam.update();
         gamePort = new FitViewport(background.getWidth(), background.getHeight(), gameCam);
+    }
+    
+    public void update (float delta) {
+        updateMove(delta);
+        updateCam();
     }
     
     public void updateMove (float delta) {
@@ -95,12 +106,14 @@ public class GameScreen extends ScreenAdapter {
     
     public void updateCam(){
         gameCam.position.x = (robot.getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) + 500f;
-        gameCam.position.y = (robot.getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) + 500f;
+        gameCam.position.y = (robot.getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) + 50f;
         //System.out.println(gameCam.position.x + " | " + gameCam.position.y);
+        gameCam.update();
     }
     
     @Override
     public void render (float deltaTime) {
+        
         updateMove(deltaTime);
         updateCam();
         
