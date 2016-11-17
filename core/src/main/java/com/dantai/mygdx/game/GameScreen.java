@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -41,13 +40,9 @@ public class GameScreen extends ScreenAdapter {
     
     private Texture background = new Texture("city2.jpg");
 
-    private Robot robot;
-    private Robot robot2;
     private Robot[] robots;
-    
-    private Arrow arrow;
-    private Arrow arrow2;
     private Arrow[] arrows;
+    private Energy energy;
     
     private OrthographicCamera gameCam;
     private Viewport gamePort;
@@ -76,11 +71,19 @@ public class GameScreen extends ScreenAdapter {
         gameWorld = new GameWorld(gameCam);
         worldRenderer = new WorldRenderer(game, gameWorld, gameCam);
         
+        energy = gameWorld.getEnergy();
         initRobot();
         initArrow();
+        
 
         state = STATE_PLAYER1;
         triggerTurn = false;
+    }
+    
+    public void update (float delta) {
+        updateMove(delta);
+        updateCam();
+        win();
     }
     
     public void setCam () {
@@ -105,11 +108,6 @@ public class GameScreen extends ScreenAdapter {
         arrows[1] = gameWorld.getArrow2();
     }
     
-    public void update (float delta) {
-        updateMove(delta);
-        updateCam();
-    }
-    
     public void updateMove (float delta) {
         Vector2 velocity = robots[state].getBody().getLinearVelocity();
         robots[state].move(Robot.Direction.STILL);
@@ -124,7 +122,7 @@ public class GameScreen extends ScreenAdapter {
             
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             triggerTurn = true;
-            onDriveMode();           
+            onDriveMode(); 
         } else {    
             offDriveMode();
         }
@@ -172,6 +170,20 @@ public class GameScreen extends ScreenAdapter {
         } else {
             state = STATE_PLAYER1;
         }
+    }
+
+    public void win () {
+        if (checkEnergy()) {
+            if (state == STATE_PLAYER1) {
+                System.out.println("Yellow robot win!!!");
+            } else {
+                System.out.println("Red robot win!!!");
+            }
+        }
+    }
+    
+    public boolean checkEnergy () {
+        return robots[state].getBoundingRectangle().overlaps(energy.getBoundingRectangle());
     }
     
     @Override

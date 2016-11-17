@@ -50,6 +50,8 @@ public class WorldRenderer {
     private Arrow arrow;
     private Arrow arrow2;
     
+    private Energy energy;
+    
     private TmxMapLoader maploader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -72,6 +74,7 @@ public class WorldRenderer {
         this.robot2 = gameWorld.getRobot2();
         this.arrow = gameWorld.getArrow();
         this.arrow2 = gameWorld.getArrow2();
+        this.energy = gameWorld.getEnergy();
 
         maploader = new TmxMapLoader();
         map = maploader.load("map.tmx");
@@ -150,5 +153,6 @@ public class WorldRenderer {
         robot2.draw(batch);
         arrow.draw(batch);
         arrow2.draw(batch);
+        energy.draw(batch);
     }
 }
