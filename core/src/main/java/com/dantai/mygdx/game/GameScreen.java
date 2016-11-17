@@ -80,6 +80,7 @@ public class GameScreen extends ScreenAdapter {
     
     public void updateMove (float delta) {
         Vector2 velocity = robot.getBody().getLinearVelocity();
+        float boost = 0;
         
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             
@@ -98,6 +99,10 @@ public class GameScreen extends ScreenAdapter {
                 }              
                 System.out.println("Can't jump!");
             }
+            
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                robot.drive(arrow.getRotation());
+            }
         
         } else {    
             robot.move(Robot.Direction.STILL);
@@ -108,7 +113,6 @@ public class GameScreen extends ScreenAdapter {
     public void updateCam(){
         gameCam.position.x = (robot.getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS);
         gameCam.position.y = (robot.getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS);
-        //System.out.println(gameCam.position.x + " | " + gameCam.position.y);
         gameCam.update();
     }
     

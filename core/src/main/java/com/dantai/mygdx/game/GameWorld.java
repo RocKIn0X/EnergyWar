@@ -30,8 +30,10 @@ public class GameWorld {
         world = new World(new Vector2(0, -10), true);
         robot = new Robot(100f, 1100f, this);
         ground = new Ground(world, gameCam);
-        arrow = new Arrow(robot.getPosition().x + robot.getWidth(), robot.getPosition().y + robot.getHeight(), robot);
-        System.out.println(robot.getPosition());
+        arrow = new Arrow(robot.getPosition().x + robot.getWidth(), robot.getPosition().y + robot.getHeight(),
+                          robot.getPosition().x + robot.getWidth() / 2, robot.getPosition().y + robot.getHeight() / 2, robot);
+        
+        arrow.setRotation(0);
         
         world.setContactListener(new WorldContactListener());
     }
@@ -40,20 +42,17 @@ public class GameWorld {
         world.step(1 / 60f, 6, 2);
         
         robot.update(delta);
-        arrow.update(delta);
+        updateArrow();
         
         gameCam.update();
     }
     
-    public boolean checkJump () {
-        //System.out.println(robot.getRectangle().getX() + " | " + robot.getRectangle().getY());
-        //System.out.println((ground.getRectangle().getX() + ground.getRectangle().getWidth()) + " | " + (ground.getRectangle().getY() + ground.getRectangle().getHeight()));
-        
-        return robot.getRectangle().overlaps(ground.getRectangle());
+    public void updateArrow () {
+        arrow.update();
     }
     
-    public void updateArrow () {
-        
+    public boolean checkJump () {
+        return robot.getRectangle().overlaps(ground.getRectangle());
     }
     
     public World getWorld () {

@@ -17,20 +17,49 @@ import com.badlogic.gdx.math.Vector2;
 public class Arrow extends Sprite {
     private Robot robot;
     
+    private float posX;
+    private float posY;
+    private float originX;
+    private float originY;
+    private float rotation;
     
-    public Arrow (float x, float y, Robot robot) {
+    public Arrow (float x, float y, float originX, float originY, Robot robot) {
         super(new Texture("point.png"));
         this.robot = robot;
         
         setBounds(x, y, 8f, 8f);
+        setOrigin(originX, originY);
     }
     
-    public void update (float delta) {
-        setPosition(robot.getX() + robot.getWidth(), robot.getY() + robot.getHeight());
+    public void update () {
+        
+        originX = robot.getX() + robot.getWidth() / 2;
+        originY = robot.getY() + robot.getHeight() / 2;
+
+        posX = (float) (originX + (40f * Math.cos(Math.toRadians(rotation))));
+        posY = (float) (originY + (40f * Math.sin(Math.toRadians(rotation))));
+        
+        setOrigin(originX, originY);
+        setPosition(posX, posY);
+        
+        if (rotation > 360) {
+           rotation = 0; 
+        } else {
+           rotation += 100 * Gdx.graphics.getDeltaTime();  
+        }
+        
+        
+    }
+    
+    public void setRotation (float rotation) {
+        this.rotation = rotation;
+    }
+    
+    public float getRotation () {
+        return rotation;
     }
     
     public Vector2 getPosition () {
         return new Vector2(getX(), getY());
     }
-    
 }

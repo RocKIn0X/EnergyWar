@@ -29,6 +29,7 @@ public class Robot extends Sprite {
     private Rectangle robotRect;
     
     public static final float SPEED = 0.5f;
+    public static final float BOOST = 5f;
     
     public Robot (float x, float y, GameWorld gameWorld) {
         super(new Sprite(new Texture("robot.png")));
@@ -69,6 +70,7 @@ public class Robot extends Sprite {
         circle.setRadius(20f / EnergyWar.PIXELS_TO_METERS);
         
         FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.restitution = 0.4f;
         fixtureDef.shape = circle;
         
         robotBody.createFixture(fixtureDef);
@@ -98,6 +100,13 @@ public class Robot extends Sprite {
                 robotBody.applyLinearImpulse(new Vector2(0, 0), robotBody.getWorldCenter(), true);
                 break;
         }      
+    }
+    
+    public void drive (float rotation) {
+        float directionX = (float) Math.cos(Math.toRadians(rotation));
+        float directionY = (float) Math.sin(Math.toRadians(rotation));
+        
+        robotBody.applyLinearImpulse(new Vector2(BOOST * directionX, BOOST * directionY), robotBody.getWorldCenter(), true);
     }
     
     public Vector2 getPosition () {
