@@ -42,6 +42,7 @@ public class GameScreen extends ScreenAdapter {
     private Texture background = new Texture("city2.jpg");
 
     private Robot robot;
+    private Arrow arrow;
     
     private OrthographicCamera gameCam;
     private Viewport gamePort;
@@ -59,6 +60,7 @@ public class GameScreen extends ScreenAdapter {
         gameWorld = new GameWorld(gameCam);
         worldRenderer = new WorldRenderer(game, gameWorld, gameCam);
         robot = gameWorld.getRobot();
+        arrow = gameWorld.getArrow();
         
         gameCam.position.set(gamePort.getScreenWidth() / 2, gamePort.getScreenHeight() / 2, 0);
     }
@@ -90,10 +92,10 @@ public class GameScreen extends ScreenAdapter {
             }
             
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-                //if(gameWorld.checkJump()) {
+                if(gameWorld.checkJump()) {
                     System.out.println("Jump!");
                     robot.move(Robot.Direction.UP);
-                //}              
+                }              
                 System.out.println("Can't jump!");
             }
         
@@ -112,10 +114,8 @@ public class GameScreen extends ScreenAdapter {
     
     @Override
     public void render (float deltaTime) {
-        
-        updateMove(deltaTime);
-        updateCam();
-        
+        update(deltaTime);
+              
         gameWorld.update(deltaTime);
         worldRenderer.render(deltaTime);
     }

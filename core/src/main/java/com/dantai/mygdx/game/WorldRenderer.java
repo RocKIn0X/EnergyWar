@@ -39,19 +39,25 @@ public class WorldRenderer {
     private GameWorld gameWorld;
     private OrthographicCamera gameCam;
     
+    private Texture arrowImg;
+    
     private SpriteBatch batch;
     private Sprite robotImg;
-    private Sprite bgImg;
-    private Sprite bgImg2;
-    private Sprite bgImg3;
-    private Sprite bgImg4;
     
     private Robot robot;
     private Ground ground;
+    private Arrow arrow;
     
     private TmxMapLoader maploader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+    
+    private BodyDef bdef = new BodyDef();
+    private PolygonShape shape = new PolygonShape();
+    private FixtureDef fdef = new FixtureDef();
+    private Body body;
+        
+        
    
     Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
     
@@ -60,24 +66,27 @@ public class WorldRenderer {
         this.game = game;
         this.gameWorld = gameWorld;
         this.gameCam = gameCam;
+        this.arrow = gameWorld.getArrow();
+        this.robot = gameWorld.getRobot();
 
         robotImg = new Sprite(new Texture("robot.png"));
+        arrowImg = new Texture("Arrow2.png");
         
         maploader = new TmxMapLoader();
         map = maploader.load("map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
         
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-        
+        createBus();
+        createEdge();
+        createBlock();
+    }
+    
+    public void createBus () {
         for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set((rect.getX() + rect.getWidth() / 2) / EnergyWar.PIXELS_TO_METERS, (rect.getY() + rect.getHeight() / 2) / EnergyWar.PIXELS_TO_METERS);
-            System.out.println(rect.getWidth() + " | " + rect.getHeight());
             
             body = gameWorld.getWorld().createBody(bdef);
             
@@ -85,7 +94,9 @@ public class WorldRenderer {
             fdef.shape = shape;
             body.createFixture(fdef);
         }
-        
+    }
+    
+    public void createEdge () {
         for(MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             
@@ -98,13 +109,14 @@ public class WorldRenderer {
             fdef.shape = shape;
             body.createFixture(fdef);
         }
-        
+    }
+    
+    public void createBlock () {
         for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set((rect.getX() + rect.getWidth() / 2) / EnergyWar.PIXELS_TO_METERS, (rect.getY() + rect.getHeight() / 2) / EnergyWar.PIXELS_TO_METERS);
-            System.out.println(rect.getWidth() + " | " + rect.getHeight());
             
             body = gameWorld.getWorld().createBody(bdef);
             
@@ -114,9 +126,7 @@ public class WorldRenderer {
         }
     }
     
-    
-    
-    public void render(float delta){
+    public void render (float delta) {
         batch = game.batch;
         
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -127,11 +137,10 @@ public class WorldRenderer {
         batch.setProjectionMatrix(gameCam.combined);
         
         batch.begin();
-       // batch.draw(bgImg, 0, 0);
-        //batch.draw(bgImg2, -1920, 0);
-        //batch.draw(bgImg3, 0, -1080);
-        //batch.draw(bgImg4, -1920, -1080);
-        gameWorld.getRobot().draw(batch);
+        
+        robot.draw(batch);
+        arrow.draw(batch);
+        
         batch.end();
         
         Matrix4 cameraCopy = gameCam.combined.cpy();

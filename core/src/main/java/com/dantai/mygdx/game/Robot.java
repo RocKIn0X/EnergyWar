@@ -23,23 +23,26 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Robot extends Sprite {
     private Vector2 position;
+
     private World world;
     private Body robotBody;
     private Rectangle robotRect;
     
     public static final float SPEED = 0.5f;
     
-    public Robot (float x, float y, World world) {
+    public Robot (float x, float y, GameWorld gameWorld) {
         super(new Sprite(new Texture("robot.png")));
         
         position = new Vector2(x / EnergyWar.PIXELS_TO_METERS, y / EnergyWar.PIXELS_TO_METERS);
-        this.world = world;
+        this.world = gameWorld.getWorld();
         
         defineRobot();
         
-        setBounds(robotBody.getPosition().x, robotBody.getPosition().y, 40f, 40f);
-        
-        robotRect = new Rectangle(robotBody.getPosition().x + 10f, robotBody.getPosition().y, 20f, 5f);
+        setBounds((getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) - getWidth() / 2, 
+                  (getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) - getHeight() / 2, 
+                   40f, 40f);
+                
+        robotRect = new Rectangle(robotBody.getPosition().x, robotBody.getPosition().y, 20f, 5f);
     }
     
     public enum Direction {
@@ -47,11 +50,12 @@ public class Robot extends Sprite {
     }
     
     public void update(float delta){
-        setPosition((getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) - getWidth() / 2, (getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) - getHeight() / 2);
-        robotRect.setPosition(getX() / EnergyWar.PIXELS_TO_METERS, getY() / EnergyWar.PIXELS_TO_METERS);
+        setPosition((getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) - getWidth() / 2, (getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) - getHeight() / 2); //Sprite Position
+        robotRect.setPosition(getX() / EnergyWar.PIXELS_TO_METERS, getY() / EnergyWar.PIXELS_TO_METERS); //Rect Position
         //System.out.println(robotBody.getPosition().y);
         //System.out.println(robotRect.getY());
         //System.out.println("---------------");
+        //System.out.println(getX());
     }
     
     public void defineRobot(){
@@ -97,7 +101,7 @@ public class Robot extends Sprite {
     }
     
     public Vector2 getPosition () {
-        return position;
+        return new Vector2(getX(), getY());
     }
     
     public Body getBody () {
