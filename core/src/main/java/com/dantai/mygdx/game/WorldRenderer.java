@@ -138,15 +138,17 @@ public class WorldRenderer {
         batch.setProjectionMatrix(gameCam.combined);
         
         batch.begin();
-        
-        robot.draw(batch);
-        robot2.draw(batch);
-        arrow.draw(batch);
-        arrow2.draw(batch);
-        
+        drawSprite();
         batch.end();
         
         Matrix4 cameraCopy = gameCam.combined.cpy();
         debugRenderer.render(gameWorld.getWorld(), cameraCopy.scl(EnergyWar.PIXELS_TO_METERS));
+    }
+    
+    public void drawSprite () {
+        robot.draw(batch);
+        robot2.draw(batch);
+        arrow.draw(batch);
+        arrow2.draw(batch);
     }
 }

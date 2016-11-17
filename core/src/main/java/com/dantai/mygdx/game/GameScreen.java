@@ -93,12 +93,14 @@ public class GameScreen extends ScreenAdapter {
     
     public void initRobot () {
         robots = new Robot[2];
+        
         robots[0] = gameWorld.getRobot();
         robots[1] = gameWorld.getRobot2();
     }
     
     public void initArrow () {
         arrows = new Arrow[2];
+        
         arrows[0] = gameWorld.getArrow();
         arrows[1] = gameWorld.getArrow2();
     }
@@ -110,72 +112,66 @@ public class GameScreen extends ScreenAdapter {
     
     public void updateMove (float delta) {
         Vector2 velocity = robots[state].getBody().getLinearVelocity();
+        robots[state].move(Robot.Direction.STILL);
         
-        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-            
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x >= -MAX_VELOCITY) {
-                robots[state].move(Robot.Direction.LEFT);
-            }
-        
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x <= MAX_VELOCITY) {
-                robots[state].move(Robot.Direction.RIGHT);
-            }
-            
-            if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-                if(gameWorld.checkJump()) {
-                    System.out.println("Jump!");
-                    robots[state].move(Robot.Direction.UP);
-                }              
-                System.out.println("Can't jump!");
-            }
-            
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                triggerTurn = true;
-                time += Gdx.graphics.getDeltaTime();
-                boostCount += Gdx.graphics.getDeltaTime();
-                
-                if (boostCount >= 0.125f) {
-                   boostCount = 0;
-                   levelBoost += 2;
-                }
-                
-                if (time >= 3) {
-                   robots[state].drive(arrows[state].getRotation(), levelBoost);
-                   time = 0;
-                   levelBoost = 0;
-                   
-                   if (state == STATE_PLAYER1) {
-                       state = STATE_PLAYER2;
-                   } else {
-                       state = STATE_PLAYER1;
-                   }
-                }
-            }
-        
-        } else {    
-            robots[state].move(Robot.Direction.STILL);
-            robots[state].drive(arrows[state].getRotation(), levelBoost);
-            levelBoost = 0;
-            boostCount = 0;
-            time = 0;
-            
-            if (triggerTurn) {
-                if (state == STATE_PLAYER1) {
-                    state = STATE_PLAYER2;
-                } else {
-                    state = STATE_PLAYER1;
-                }
-                triggerTurn = false;
-            }
-            
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x >= -MAX_VELOCITY) {
+            robots[state].move(Robot.Direction.LEFT);
         }
         
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x <= MAX_VELOCITY) {
+            robots[state].move(Robot.Direction.RIGHT);
+        }
+            
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            triggerTurn = true;
+            onDriveMode();           
+        } else {    
+            offDriveMode();
+        }
     }
     
-    public void updateCam(){
+    public void updateCam () {
         gameCam.position.x = (robots[state].getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS);
         gameCam.position.y = (robots[state].getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS);
         gameCam.update();
+    }
+    
+    public void onDriveMode () {
+        time += Gdx.graphics.getDeltaTime();
+        boostCount += Gdx.graphics.getDeltaTime();
+                
+        if (boostCount >= 0.125f) {
+            boostCount = 0;
+            levelBoost += 2;
+        }
+                
+        if (time >= 3) {
+            robots[state].drive(arrows[state].getRotation(), levelBoost);
+            time = 0;
+            levelBoost = 0;
+                   
+            checkState();
+        }
+    }
+    
+    public void offDriveMode () {
+        robots[state].drive(arrows[state].getRotation(), levelBoost);
+        levelBoost = 0;
+        boostCount = 0;
+        time = 0;
+            
+        if (triggerTurn) {
+            checkState();
+            triggerTurn = false;
+        }  
+    }
+    
+    public void checkState () {
+        if (state == STATE_PLAYER1) {
+            state = STATE_PLAYER2;
+        } else {
+            state = STATE_PLAYER1;
+        }
     }
     
     @Override

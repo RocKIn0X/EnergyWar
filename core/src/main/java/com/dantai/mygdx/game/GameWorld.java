@@ -36,6 +36,7 @@ public class GameWorld {
         world = new World(new Vector2(0, -10), true);
         robot = new Robot(100f, 1100f, robotTexture1, this);
         robot2 = new Robot(100f, 1100f, robotTexture2, this);
+        
         ground = new Ground(world, gameCam);
         
         arrow = new Arrow(robot.getPosition().x + robot.getWidth(), robot.getPosition().y + robot.getHeight(),

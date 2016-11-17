@@ -32,7 +32,10 @@ public class Arrow extends Sprite {
     }
     
     public void update () {
-        
+        setArrow();
+    }
+    
+    public void setArrow () {     
         originX = robot.getX() + robot.getWidth() / 2;
         originY = robot.getY() + robot.getHeight() / 2;
 

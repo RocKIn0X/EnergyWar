@@ -53,10 +53,6 @@ public class Robot extends Sprite {
     public void update(float delta){
         setPosition((getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS) - getWidth() / 2, (getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS) - getHeight() / 2); //Sprite Position
         robotRect.setPosition(getX() / EnergyWar.PIXELS_TO_METERS, getY() / EnergyWar.PIXELS_TO_METERS); //Rect Position
-        //System.out.println(robotBody.getPosition().y);
-        //System.out.println(robotRect.getY());
-        //System.out.println("---------------");
-        //System.out.println(getX());
     }
     
     public void defineRobot(){
@@ -118,7 +114,7 @@ public class Robot extends Sprite {
         return robotBody;
     }
     
-    public Rectangle getRectangle() {
+    public Rectangle getRectangle () {
         return robotRect;
     }
 }
