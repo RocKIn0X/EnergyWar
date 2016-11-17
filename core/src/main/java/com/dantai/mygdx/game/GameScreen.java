@@ -50,6 +50,10 @@ public class GameScreen extends ScreenAdapter {
     private GameWorld gameWorld;
     private WorldRenderer worldRenderer;
     
+    private float levelBoost;
+    private float boostCount;
+    private float time;
+    
     public static final float MAX_VELOCITY = 2f;
 
     public GameScreen(EnergyWar game) {
@@ -80,7 +84,6 @@ public class GameScreen extends ScreenAdapter {
     
     public void updateMove (float delta) {
         Vector2 velocity = robot.getBody().getLinearVelocity();
-        float boost = 0;
         
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             
@@ -101,11 +104,34 @@ public class GameScreen extends ScreenAdapter {
             }
             
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                robot.drive(arrow.getRotation());
+                time += Gdx.graphics.getDeltaTime();
+                boostCount += Gdx.graphics.getDeltaTime();
+                if (boostCount >= 0.125f) {
+                   boostCount = 0;
+                   levelBoost += 2;
+                   System.out.println(time);
+                   System.out.println(boostCount);
+                   System.out.println(levelBoost);
+                   System.out.println("---------");
+                }
+                
+                if (time >= 3) {
+                   System.out.println(time);
+                   System.out.println(boostCount);
+                   System.out.println(levelBoost);
+                   System.out.println("---------");
+                   robot.drive(arrow.getRotation(), levelBoost);
+                   time = 0;
+                   levelBoost = 0;
+                }
             }
         
         } else {    
             robot.move(Robot.Direction.STILL);
+            robot.drive(arrow.getRotation(), levelBoost);
+            levelBoost = 0;
+            boostCount = 0;
+            time = 0;
         }
         
     }

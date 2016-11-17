@@ -46,9 +46,7 @@ public class Arrow extends Sprite {
            rotation = 0; 
         } else {
            rotation += 100 * Gdx.graphics.getDeltaTime();  
-        }
-        
-        
+        }   
     }
     
     public void setRotation (float rotation) {

@@ -27,9 +27,9 @@ public class Robot extends Sprite {
     private World world;
     private Body robotBody;
     private Rectangle robotRect;
+    private float boost;
     
     public static final float SPEED = 0.5f;
-    public static final float BOOST = 5f;
     
     public Robot (float x, float y, GameWorld gameWorld) {
         super(new Sprite(new Texture("robot.png")));
@@ -102,11 +102,12 @@ public class Robot extends Sprite {
         }      
     }
     
-    public void drive (float rotation) {
+    public void drive (float rotation, float boost) {
+        this.boost = boost;
         float directionX = (float) Math.cos(Math.toRadians(rotation));
         float directionY = (float) Math.sin(Math.toRadians(rotation));
         
-        robotBody.applyLinearImpulse(new Vector2(BOOST * directionX, BOOST * directionY), robotBody.getWorldCenter(), true);
+        robotBody.applyLinearImpulse(new Vector2(boost * directionX, boost * directionY), robotBody.getWorldCenter(), true);
     }
     
     public Vector2 getPosition () {
