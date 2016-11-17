@@ -26,6 +26,7 @@ public class GameWorld {
     private Ground ground;
     private Arrow arrow;
     private Arrow arrow2;
+    private Energy energy;
     
     private Texture robotTexture1 = new Texture("robot.png");
     private Texture robotTexture2 = new Texture("robot2.png");
@@ -36,6 +37,7 @@ public class GameWorld {
         world = new World(new Vector2(0, -10), true);
         robot = new Robot(100f, 1100f, robotTexture1, this);
         robot2 = new Robot(100f, 1100f, robotTexture2, this);
+        energy = new Energy();
         
         ground = new Ground(world, gameCam);
         
@@ -91,5 +93,9 @@ public class GameWorld {
     
     public Arrow getArrow2 () {
         return arrow2;
+    }
+    
+    public Energy getEnergy () {
+        return energy;
     }
 }
