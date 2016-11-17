@@ -42,7 +42,12 @@ public class GameScreen extends ScreenAdapter {
     private Texture background = new Texture("city2.jpg");
 
     private Robot robot;
+    private Robot robot2;
+    private Robot[] robots;
+    
     private Arrow arrow;
+    private Arrow arrow2;
+    private Arrow[] arrows;
     
     private OrthographicCamera gameCam;
     private Viewport gamePort;
@@ -54,22 +59,28 @@ public class GameScreen extends ScreenAdapter {
     private float boostCount;
     private float time;
     
+    private int state;
+    private boolean triggerTurn;
+    
     public static final float MAX_VELOCITY = 2f;
     
-    public static final int STATE_PLAYER1 = 1;
-    public static final int STATE_PLAYER2 = 2;
+    public static final int STATE_PLAYER1 = 0;
+    public static final int STATE_PLAYER2 = 1;
 
     public GameScreen(EnergyWar game) {
         this.game = game;
         
         setCam();
+        gameCam.position.set(gamePort.getScreenWidth() / 2, gamePort.getScreenHeight() / 2, 0);
         
         gameWorld = new GameWorld(gameCam);
         worldRenderer = new WorldRenderer(game, gameWorld, gameCam);
-        robot = gameWorld.getRobot();
-        arrow = gameWorld.getArrow();
         
-        gameCam.position.set(gamePort.getScreenWidth() / 2, gamePort.getScreenHeight() / 2, 0);
+        initRobot();
+        initArrow();
+
+        state = STATE_PLAYER1;
+        triggerTurn = false;
     }
     
     public void setCam () {
@@ -80,68 +91,90 @@ public class GameScreen extends ScreenAdapter {
         gamePort = new FitViewport(background.getWidth(), background.getHeight(), gameCam);
     }
     
+    public void initRobot () {
+        robots = new Robot[2];
+        robots[0] = gameWorld.getRobot();
+        robots[1] = gameWorld.getRobot2();
+    }
+    
+    public void initArrow () {
+        arrows = new Arrow[2];
+        arrows[0] = gameWorld.getArrow();
+        arrows[1] = gameWorld.getArrow2();
+    }
+    
     public void update (float delta) {
         updateMove(delta);
         updateCam();
     }
     
     public void updateMove (float delta) {
-        Vector2 velocity = robot.getBody().getLinearVelocity();
+        Vector2 velocity = robots[state].getBody().getLinearVelocity();
         
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             
             if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x >= -MAX_VELOCITY) {
-                robot.move(Robot.Direction.LEFT);
+                robots[state].move(Robot.Direction.LEFT);
             }
         
             if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x <= MAX_VELOCITY) {
-                robot.move(Robot.Direction.RIGHT);
+                robots[state].move(Robot.Direction.RIGHT);
             }
             
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
                 if(gameWorld.checkJump()) {
                     System.out.println("Jump!");
-                    robot.move(Robot.Direction.UP);
+                    robots[state].move(Robot.Direction.UP);
                 }              
                 System.out.println("Can't jump!");
             }
             
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                triggerTurn = true;
                 time += Gdx.graphics.getDeltaTime();
                 boostCount += Gdx.graphics.getDeltaTime();
+                
                 if (boostCount >= 0.125f) {
                    boostCount = 0;
                    levelBoost += 2;
-                   System.out.println(time);
-                   System.out.println(boostCount);
-                   System.out.println(levelBoost);
-                   System.out.println("---------");
                 }
                 
                 if (time >= 3) {
-                   System.out.println(time);
-                   System.out.println(boostCount);
-                   System.out.println(levelBoost);
-                   System.out.println("---------");
-                   robot.drive(arrow.getRotation(), levelBoost);
+                   robots[state].drive(arrows[state].getRotation(), levelBoost);
                    time = 0;
                    levelBoost = 0;
+                   
+                   if (state == STATE_PLAYER1) {
+                       state = STATE_PLAYER2;
+                   } else {
+                       state = STATE_PLAYER1;
+                   }
                 }
             }
         
         } else {    
-            robot.move(Robot.Direction.STILL);
-            robot.drive(arrow.getRotation(), levelBoost);
+            robots[state].move(Robot.Direction.STILL);
+            robots[state].drive(arrows[state].getRotation(), levelBoost);
             levelBoost = 0;
             boostCount = 0;
             time = 0;
+            
+            if (triggerTurn) {
+                if (state == STATE_PLAYER1) {
+                    state = STATE_PLAYER2;
+                } else {
+                    state = STATE_PLAYER1;
+                }
+                triggerTurn = false;
+            }
+            
         }
         
     }
     
     public void updateCam(){
-        gameCam.position.x = (robot.getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS);
-        gameCam.position.y = (robot.getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS);
+        gameCam.position.x = (robots[state].getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS);
+        gameCam.position.y = (robots[state].getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS);
         gameCam.update();
     }
     
