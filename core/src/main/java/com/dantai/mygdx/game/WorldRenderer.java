@@ -45,8 +45,10 @@ public class WorldRenderer {
     private Sprite robotImg;
     
     private Robot robot;
-    private Ground ground;
+    private Robot robot2;
+    
     private Arrow arrow;
+    private Arrow arrow2;
     
     private TmxMapLoader maploader;
     private TiledMap map;
@@ -66,12 +68,11 @@ public class WorldRenderer {
         this.game = game;
         this.gameWorld = gameWorld;
         this.gameCam = gameCam;
-        this.arrow = gameWorld.getArrow();
         this.robot = gameWorld.getRobot();
+        this.robot2 = gameWorld.getRobot2();
+        this.arrow = gameWorld.getArrow();
+        this.arrow2 = gameWorld.getArrow2();
 
-        robotImg = new Sprite(new Texture("robot.png"));
-        arrowImg = new Texture("Arrow2.png");
-        
         maploader = new TmxMapLoader();
         map = maploader.load("map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -139,7 +140,9 @@ public class WorldRenderer {
         batch.begin();
         
         robot.draw(batch);
+        robot2.draw(batch);
         arrow.draw(batch);
+        arrow2.draw(batch);
         
         batch.end();
         

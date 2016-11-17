@@ -55,6 +55,9 @@ public class GameScreen extends ScreenAdapter {
     private float time;
     
     public static final float MAX_VELOCITY = 2f;
+    
+    public static final int STATE_PLAYER1 = 1;
+    public static final int STATE_PLAYER2 = 2;
 
     public GameScreen(EnergyWar game) {
         this.game = game;

@@ -31,8 +31,8 @@ public class Robot extends Sprite {
     
     public static final float SPEED = 0.5f;
     
-    public Robot (float x, float y, GameWorld gameWorld) {
-        super(new Sprite(new Texture("robot.png")));
+    public Robot (float x, float y, Texture texture, GameWorld gameWorld) {
+        super(new Sprite(texture));
         
         position = new Vector2(x / EnergyWar.PIXELS_TO_METERS, y / EnergyWar.PIXELS_TO_METERS);
         this.world = gameWorld.getWorld();
