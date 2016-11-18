@@ -12,6 +12,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -39,7 +40,6 @@ public class GameScreen extends ScreenAdapter {
     private EnergyWar game;
     
     private Texture background = new Texture("city2.jpg");
-
     private Robot[] robots;
     private Arrow[] arrows;
     private Energy energy;
@@ -55,12 +55,15 @@ public class GameScreen extends ScreenAdapter {
     private float time;
     
     private int state;
+    private float limitTime;
     private boolean triggerTurn;
     
     public static final float MAX_VELOCITY = 2f;
     
     public static final int STATE_PLAYER1 = 0;
     public static final int STATE_PLAYER2 = 1;
+    
+    public static final int DRIVE_TIME = 3;
 
     public GameScreen(EnergyWar game) {
         this.game = game;
@@ -74,8 +77,7 @@ public class GameScreen extends ScreenAdapter {
         energy = gameWorld.getEnergy();
         initRobot();
         initArrow();
-        
-
+    
         state = STATE_PLAYER1;
         triggerTurn = false;
     }
@@ -143,12 +145,12 @@ public class GameScreen extends ScreenAdapter {
             levelBoost += 2;
         }
                 
-        if (time >= 3) {
+        if (time >= DRIVE_TIME) {
             robots[state].drive(arrows[state].getRotation(), levelBoost);
             time = 0;
             levelBoost = 0;
                    
-            checkState();
+            switchState();
         }
     }
     
@@ -159,12 +161,21 @@ public class GameScreen extends ScreenAdapter {
         time = 0;
             
         if (triggerTurn) {
-            checkState();
+            switchState();
             triggerTurn = false;
         }  
     }
     
-    public void checkState () {
+    public void timeLimit () {
+        limitTime -= Gdx.graphics.getDeltaTime();
+        
+        if (limitTime <= 0) {
+            switchState();
+            limitTime = 8;
+        }
+    }
+    
+    public void switchState () {
         if (state == STATE_PLAYER1) {
             state = STATE_PLAYER2;
         } else {
