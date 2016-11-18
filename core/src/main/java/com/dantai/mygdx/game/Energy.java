@@ -16,6 +16,6 @@ public class Energy extends Sprite{
     
     public Energy () {
         super(new Texture("energy.png"));
-        setBounds(200, 1100, 40f, 40f);
+        setBounds(2080, 1200, 40f, 40f);
     }
 }
