@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnergyWar extends Game {
     public SpriteBatch batch;
+    public static final int V_WIDTH = 1920;
+    public static final int V_HEIGHT = 1080;
 
     public static final float PIXELS_TO_METERS = 100f;
     

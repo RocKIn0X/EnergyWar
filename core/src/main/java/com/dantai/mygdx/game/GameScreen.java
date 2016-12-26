@@ -58,18 +58,14 @@ public class GameScreen extends ScreenAdapter {
     private float delayTime;  //delay time when switch turn
     private boolean triggerTurn;
     
-    public static final int WIDTH = 1920;
-    public static final int HEIGHT = 1080;
-    
     public static final float MAX_VELOCITY = 2f;
     public static final float DRIVE_RATE = 0.125f;
     public static final float DELAY_TIME = 5f;
+    public static final int DRIVE_TIME = 3;
     public static final int LIMIT_TIME = 8;
     
     public static final int STATE_PLAYER1 = 0;
     public static final int STATE_PLAYER2 = 1;
-    
-    public static final int DRIVE_TIME = 3;
 
     public GameScreen(EnergyWar game) {
         this.game = game;
@@ -96,10 +92,10 @@ public class GameScreen extends ScreenAdapter {
     
     public void setCam () {
         gameCam = new OrthographicCamera();
-        gameCam.setToOrtho(false, WIDTH / EnergyWar.PIXELS_TO_METERS, HEIGHT / EnergyWar.PIXELS_TO_METERS);
-        gameCam.translate(WIDTH / 2, HEIGHT / 2, 0);
+        gameCam.setToOrtho(false, EnergyWar.V_WIDTH / EnergyWar.PIXELS_TO_METERS, EnergyWar.V_HEIGHT / EnergyWar.PIXELS_TO_METERS);
+        gameCam.translate(EnergyWar.V_WIDTH / 2, EnergyWar.V_HEIGHT / 2, 0);
         gameCam.update();
-        gamePort = new FitViewport(WIDTH, HEIGHT, gameCam);
+        gamePort = new FitViewport(EnergyWar.V_WIDTH, EnergyWar.V_HEIGHT, gameCam);
     }
     
     public void initRobot () {
@@ -123,20 +119,12 @@ public class GameScreen extends ScreenAdapter {
     }
     
     public void onDriveMode () {
-        time += Gdx.graphics.getDeltaTime();
+        //time += Gdx.graphics.getDeltaTime();
         boostCount += Gdx.graphics.getDeltaTime();
                 
         if (boostCount >= DRIVE_RATE) {
             boostCount = 0;
             levelBoost += 2;
-        }
-                
-        if (time >= DRIVE_TIME) {
-            robots[state].drive(arrows[state].getRotation(), levelBoost);
-            time = 0;
-            levelBoost = 0;
-                   
-            switchState();
         }
     }
     
@@ -144,7 +132,6 @@ public class GameScreen extends ScreenAdapter {
         robots[state].drive(arrows[state].getRotation(), levelBoost);
         levelBoost = 0;
         boostCount = 0;
-        time = 0;
             
         if (triggerTurn) {
             switchState();
@@ -190,6 +177,8 @@ public class GameScreen extends ScreenAdapter {
     
     public void updateMove (float delta) {
         Vector2 velocity = robots[state].getBody().getLinearVelocity();
+        time += Gdx.graphics.getDeltaTime();
+        
         robots[state].move(Robot.Direction.STILL);
         
         if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x >= -MAX_VELOCITY) {
@@ -200,11 +189,13 @@ public class GameScreen extends ScreenAdapter {
             robots[state].move(Robot.Direction.RIGHT);
         }
             
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && time <= DRIVE_TIME) {
             triggerTurn = true;
             onDriveMode(); 
         } else {    
             offDriveMode();
+            time = 0;
+            limitTime = LIMIT_TIME;
         }
         
         if(timeLimit()) {
