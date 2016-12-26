@@ -38,8 +38,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class GameScreen extends ScreenAdapter {
 
     private EnergyWar game;
-    
-    private Texture background = new Texture("city2.jpg");
+
     private Robot[] robots;
     private Arrow[] arrows;
     private Energy energy;
@@ -56,9 +55,16 @@ public class GameScreen extends ScreenAdapter {
     
     private int state;
     private float limitTime;
+    private float delayTime;  //delay time when switch turn
     private boolean triggerTurn;
     
+    public static final int WIDTH = 1920;
+    public static final int HEIGHT = 1080;
+    
     public static final float MAX_VELOCITY = 2f;
+    public static final float DRIVE_RATE = 0.125f;
+    public static final float DELAY_TIME = 5f;
+    public static final int LIMIT_TIME = 8;
     
     public static final int STATE_PLAYER1 = 0;
     public static final int STATE_PLAYER2 = 1;
@@ -90,10 +96,10 @@ public class GameScreen extends ScreenAdapter {
     
     public void setCam () {
         gameCam = new OrthographicCamera();
-        gameCam.setToOrtho(false, background.getWidth() / EnergyWar.PIXELS_TO_METERS, background.getHeight() / EnergyWar.PIXELS_TO_METERS);
-        gameCam.translate(background.getWidth() / 2, background.getHeight() / 2, 0);
+        gameCam.setToOrtho(false, WIDTH / EnergyWar.PIXELS_TO_METERS, HEIGHT / EnergyWar.PIXELS_TO_METERS);
+        gameCam.translate(WIDTH / 2, HEIGHT / 2, 0);
         gameCam.update();
-        gamePort = new FitViewport(background.getWidth(), background.getHeight(), gameCam);
+        gamePort = new FitViewport(WIDTH, HEIGHT, gameCam);
     }
     
     public void initRobot () {
@@ -110,26 +116,6 @@ public class GameScreen extends ScreenAdapter {
         arrows[1] = gameWorld.getArrow2();
     }
     
-    public void updateMove (float delta) {
-        Vector2 velocity = robots[state].getBody().getLinearVelocity();
-        robots[state].move(Robot.Direction.STILL);
-        
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x >= -MAX_VELOCITY) {
-            robots[state].move(Robot.Direction.LEFT);
-        }
-        
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x <= MAX_VELOCITY) {
-            robots[state].move(Robot.Direction.RIGHT);
-        }
-            
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            triggerTurn = true;
-            onDriveMode(); 
-        } else {    
-            offDriveMode();
-        }
-    }
-    
     public void updateCam () {
         gameCam.position.x = (robots[state].getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS);
         gameCam.position.y = (robots[state].getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS);
@@ -140,7 +126,7 @@ public class GameScreen extends ScreenAdapter {
         time += Gdx.graphics.getDeltaTime();
         boostCount += Gdx.graphics.getDeltaTime();
                 
-        if (boostCount >= 0.125f) {
+        if (boostCount >= DRIVE_RATE) {
             boostCount = 0;
             levelBoost += 2;
         }
@@ -166,20 +152,25 @@ public class GameScreen extends ScreenAdapter {
         }  
     }
     
-    public void timeLimit () {
+    public boolean timeLimit () {
         limitTime -= Gdx.graphics.getDeltaTime();
         
         if (limitTime <= 0) {
-            switchState();
-            limitTime = 8;
+            limitTime = LIMIT_TIME;
+            
+            return true;
         }
+        System.out.println(limitTime);
+        return false;
     }
     
     public void switchState () {
         if (state == STATE_PLAYER1) {
             state = STATE_PLAYER2;
+            System.out.println(state);
         } else {
             state = STATE_PLAYER1;
+            System.out.println(state);
         }
     }
 
@@ -195,6 +186,30 @@ public class GameScreen extends ScreenAdapter {
     
     public boolean checkEnergy () {
         return robots[state].getBoundingRectangle().overlaps(energy.getBoundingRectangle());
+    }
+    
+    public void updateMove (float delta) {
+        Vector2 velocity = robots[state].getBody().getLinearVelocity();
+        robots[state].move(Robot.Direction.STILL);
+        
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x >= -MAX_VELOCITY) {
+            robots[state].move(Robot.Direction.LEFT);
+        }
+        
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x <= MAX_VELOCITY) {
+            robots[state].move(Robot.Direction.RIGHT);
+        }
+            
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            triggerTurn = true;
+            onDriveMode(); 
+        } else {    
+            offDriveMode();
+        }
+        
+        if(timeLimit()) {
+            switchState();
+        }
     }
     
     @Override

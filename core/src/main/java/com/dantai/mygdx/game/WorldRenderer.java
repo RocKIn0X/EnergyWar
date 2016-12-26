@@ -77,15 +77,14 @@ public class WorldRenderer {
         this.energy = gameWorld.getEnergy();
 
         maploader = new TmxMapLoader();
-        map = maploader.load("map.tmx");
+        map = maploader.load("map3.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
         
-        createBus();
         createEdge();
         createBlock();
     }
     
-    public void createBus () {
+    public void createEdge () {
         for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             
@@ -100,23 +99,8 @@ public class WorldRenderer {
         }
     }
     
-    public void createEdge () {
-        for(MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / EnergyWar.PIXELS_TO_METERS, (rect.getY() + rect.getHeight() / 2) / EnergyWar.PIXELS_TO_METERS);
-            
-            body = gameWorld.getWorld().createBody(bdef);
-            
-            shape.setAsBox((rect.getWidth() / 2) / EnergyWar.PIXELS_TO_METERS, (rect.getHeight() / 2) / EnergyWar.PIXELS_TO_METERS);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-    }
-    
     public void createBlock () {
-        for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+        for(MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             
             bdef.type = BodyDef.BodyType.StaticBody;

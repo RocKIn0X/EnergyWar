@@ -35,8 +35,8 @@ public class GameWorld {
         this.gameCam = gameCam;
         
         world = new World(new Vector2(0, -10), true);
-        robot = new Robot(100f, 1100f, robotTexture1, this);
-        robot2 = new Robot(100f, 1100f, robotTexture2, this);
+        robot = new Robot(100f, 100f, robotTexture1, this);
+        robot2 = new Robot(100f, 150f, robotTexture2, this);
         energy = new Energy();
         
         ground = new Ground(world, gameCam);
@@ -49,7 +49,7 @@ public class GameWorld {
                           robot2.getPosition().x + robot.getWidth() / 2, robot2.getPosition().y + robot2.getHeight() / 2, robot2);
         arrow2.setRotation(0);
         
-        world.setContactListener(new WorldContactListener());
+        //world.setContactListener(new WorldContactListener());
     }
     
     public void update (float delta) {
