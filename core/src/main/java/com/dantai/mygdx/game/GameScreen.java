@@ -54,6 +54,7 @@ public class GameScreen extends ScreenAdapter {
     private float time;
     
     private int state;
+    private int statePlayer;
     private float limitTime;
     private float delayTime;  //delay time when switch turn
     private boolean triggerTurn;
@@ -67,6 +68,9 @@ public class GameScreen extends ScreenAdapter {
     public static final int STATE_PLAYER1 = 0;
     public static final int STATE_PLAYER2 = 1;
 
+    public static final int GAME_RUNNING = 0;
+    public static final int GAME_END = 1;
+    
     public GameScreen(EnergyWar game) {
         this.game = game;
         
@@ -79,8 +83,9 @@ public class GameScreen extends ScreenAdapter {
         energy = gameWorld.getEnergy();
         initRobot();
         initArrow();
-    
-        state = STATE_PLAYER1;
+        
+        state = GAME_RUNNING;
+        statePlayer = STATE_PLAYER1;
         triggerTurn = false;
     }
     
@@ -113,8 +118,8 @@ public class GameScreen extends ScreenAdapter {
     }
     
     public void updateCam () {
-        gameCam.position.x = (robots[state].getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS);
-        gameCam.position.y = (robots[state].getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS);
+        gameCam.position.x = (robots[statePlayer].getBody().getPosition().x * EnergyWar.PIXELS_TO_METERS);
+        gameCam.position.y = (robots[statePlayer].getBody().getPosition().y * EnergyWar.PIXELS_TO_METERS);
         gameCam.update();
     }
     
@@ -129,7 +134,7 @@ public class GameScreen extends ScreenAdapter {
     }
     
     public void offDriveMode () {
-        robots[state].drive(arrows[state].getRotation(), levelBoost);
+        robots[statePlayer].drive(arrows[statePlayer].getRotation(), levelBoost);
         levelBoost = 0;
         boostCount = 0;
             
@@ -152,18 +157,18 @@ public class GameScreen extends ScreenAdapter {
     }
     
     public void switchState () {
-        if (state == STATE_PLAYER1) {
-            state = STATE_PLAYER2;
-            System.out.println(state);
+        if (statePlayer == STATE_PLAYER1) {
+            statePlayer = STATE_PLAYER2;
+            System.out.println(statePlayer);
         } else {
-            state = STATE_PLAYER1;
-            System.out.println(state);
+            statePlayer = STATE_PLAYER1;
+            System.out.println(statePlayer);
         }
     }
 
     public void win () {
         if (checkEnergy()) {
-            if (state == STATE_PLAYER1) {
+            if (statePlayer == STATE_PLAYER1) {
                 System.out.println("Yellow robot win!!!");
             } else {
                 System.out.println("Red robot win!!!");
@@ -172,21 +177,21 @@ public class GameScreen extends ScreenAdapter {
     }
     
     public boolean checkEnergy () {
-        return robots[state].getBoundingRectangle().overlaps(energy.getBoundingRectangle());
+        return robots[statePlayer].getBoundingRectangle().overlaps(energy.getBoundingRectangle());
     }
     
     public void updateMove (float delta) {
-        Vector2 velocity = robots[state].getBody().getLinearVelocity();
+        Vector2 velocity = robots[statePlayer].getBody().getLinearVelocity();
         time += Gdx.graphics.getDeltaTime();
         
-        robots[state].move(Robot.Direction.STILL);
+        robots[statePlayer].move(Robot.Direction.STILL);
         
         if (Gdx.input.isKeyPressed(Input.Keys.A) && velocity.x >= -MAX_VELOCITY) {
-            robots[state].move(Robot.Direction.LEFT);
+            robots[statePlayer].move(Robot.Direction.LEFT);
         }
         
         if (Gdx.input.isKeyPressed(Input.Keys.D) && velocity.x <= MAX_VELOCITY) {
-            robots[state].move(Robot.Direction.RIGHT);
+            robots[statePlayer].move(Robot.Direction.RIGHT);
         }
             
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && time <= DRIVE_TIME) {
