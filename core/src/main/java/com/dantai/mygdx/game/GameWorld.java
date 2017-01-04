@@ -24,21 +24,17 @@ public class GameWorld {
     
     private Robot robot;
     private Robot robot2;
-    private Ground ground;
     private Arrow arrow;
     private Arrow arrow2;
     private Energy energy;
     
     public GameWorld (Camera gameCam) {  
         this.gameCam = gameCam;
-        Gdx.app.log("AssetPath", Gdx.files.internal("assets/robot.png").file().getAbsolutePath());
         
         world = new World(new Vector2(0, -10), true);
         robot = new Robot(100f, 100f, new Texture(Gdx.files.internal("assets/robot.png")), this);
         robot2 = new Robot(100f, 150f, new Texture(Gdx.files.internal("assets/robot2.png")), this);
         energy = new Energy();
-        
-        ground = new Ground(world, gameCam);
         
         arrow = new Arrow(robot.getPosition().x + robot.getWidth(), robot.getPosition().y + robot.getHeight(),
                           robot.getPosition().x + robot.getWidth() / 2, robot.getPosition().y + robot.getHeight() / 2, robot);
@@ -47,8 +43,6 @@ public class GameWorld {
         arrow2 = new Arrow(robot2.getPosition().x + robot2.getWidth(), robot2.getPosition().y + robot2.getHeight(),
                           robot2.getPosition().x + robot.getWidth() / 2, robot2.getPosition().y + robot2.getHeight() / 2, robot2);
         arrow2.setRotation(0);
-        
-        //world.setContactListener(new WorldContactListener());
     }
     
     public void update (float delta) {
@@ -66,10 +60,6 @@ public class GameWorld {
         arrow2.update();
     }
     
-    public boolean checkJump () {
-        return robot.getRectangle().overlaps(ground.getRectangle());
-    }
-    
     public World getWorld () {
         return world;
     }
@@ -80,10 +70,6 @@ public class GameWorld {
     
     public Robot getRobot2 () {
         return robot2;
-    }
-    
-    public Ground getGround () {
-        return ground;
     }
     
     public Arrow getArrow () {
