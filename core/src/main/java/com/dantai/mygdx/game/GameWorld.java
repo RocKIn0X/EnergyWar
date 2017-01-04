@@ -32,8 +32,8 @@ public class GameWorld {
         this.gameCam = gameCam;
         
         world = new World(new Vector2(0, -10), true);
-        robot = new Robot(100f, 100f, new Texture(Gdx.files.internal("../core/assets/robot.png")), this);
-        robot2 = new Robot(100f, 150f, new Texture(Gdx.files.internal("../core/assets/robot2.png")), this);
+        robot = new Robot(100f, 100f, new Texture("robot.png"), this);
+        robot2 = new Robot(100f, 150f, new Texture("robot2.png"), this);
         energy = new Energy();
         
         arrow = new Arrow(robot.getPosition().x + robot.getWidth(), robot.getPosition().y + robot.getHeight(),
