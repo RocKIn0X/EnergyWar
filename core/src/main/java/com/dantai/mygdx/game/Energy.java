@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Energy extends Sprite{
     
     public Energy () {
-        super(new Texture(Gdx.files.internal("assets/energy.png")));
+        super(new Texture(Gdx.files.internal("../core/assets/energy.png")));
         setBounds(1850, 50, 40f, 40f);
     }
 }

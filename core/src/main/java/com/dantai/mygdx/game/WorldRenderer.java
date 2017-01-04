@@ -77,7 +77,7 @@ public class WorldRenderer {
         this.energy = gameWorld.getEnergy();
 
         maploader = new TmxMapLoader();
-        map = maploader.load("assets/map3.tmx");
+        map = maploader.load("../core/assets/map3.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
         
         createEdge();
