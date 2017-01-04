@@ -5,6 +5,7 @@
  */
 package com.dantai.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,15 +29,13 @@ public class GameWorld {
     private Arrow arrow2;
     private Energy energy;
     
-    private Texture robotTexture1 = new Texture("robot.png");
-    private Texture robotTexture2 = new Texture("robot2.png");
-    
     public GameWorld (Camera gameCam) {  
         this.gameCam = gameCam;
+        Gdx.app.log("AssetPath", Gdx.files.internal("assets/robot.png").file().getAbsolutePath());
         
         world = new World(new Vector2(0, -10), true);
-        robot = new Robot(100f, 100f, robotTexture1, this);
-        robot2 = new Robot(100f, 150f, robotTexture2, this);
+        robot = new Robot(100f, 100f, new Texture(Gdx.files.internal("assets/robot.png")), this);
+        robot2 = new Robot(100f, 150f, new Texture(Gdx.files.internal("assets/robot2.png")), this);
         energy = new Energy();
         
         ground = new Ground(world, gameCam);

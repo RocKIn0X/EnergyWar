@@ -24,7 +24,7 @@ public class Arrow extends Sprite {
     private float rotation;
     
     public Arrow (float x, float y, float originX, float originY, Robot robot) {
-        super(new Texture("point.png"));
+        super(new Texture(Gdx.files.internal("assets/point.png")));
         this.robot = robot;
         
         setBounds(x, y, 8f, 8f);
